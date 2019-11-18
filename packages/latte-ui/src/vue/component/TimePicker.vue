@@ -14,9 +14,9 @@
 		<template v-slot="{current, setCurrent, setNow, cancel, select}">
 			<latte-timepicker-clock ref="picker" :value="current" @input="setCurrent">
 				<div class="panel-footer">
-					<latte-ripple as="button" class="btn btn-icon btn-text btn-dark" @click="setNow"><Icon name="calendar-today"/></latte-ripple>
-					<latte-ripple as="button" class="btn btn-text btn-dark ml-auto" @click="cancel"><span>{{ "Cancel" | i18n("latte-ui") }}</span></latte-ripple>
-					<latte-ripple as="button" class="btn btn-contained btn-primary" @click="select"><Icon name="check-circle"/><span>{{ "Set" | i18n("latte-ui") }}</span></latte-ripple>
+					<latte-ripple as="button" class="btn btn-icon btn-text" @click="setNow"><Icon name="calendar-today"/></latte-ripple>
+					<latte-ripple as="button" class="btn btn-text ml-auto" @click="cancel"><span>{{ "Cancel" | i18n("latte-ui") }}</span></latte-ripple>
+					<latte-ripple as="button" class="btn btn-contained btn-primary" @click="select"><Icon name="check-circle"/><span>{{ "OK" | i18n("latte-ui") }}</span></latte-ripple>
 				</div>
 			</latte-timepicker-clock>
 		</template>
@@ -27,8 +27,8 @@
 
 <script>
 
-	import DateTimePickerMount from "./base/DateTimePickerMount";
-	import Icon from "./base/Icon";
+	import DateTimePickerMount from "./base/DateTimePickerMount.vue";
+	import Icon from "./base/Icon.vue";
 
 	export default {
 

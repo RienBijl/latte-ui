@@ -12,8 +12,8 @@
 	<div class="expandable">
 
 		<div class="expandable-header" @click="toggle">
-			<slot name="header" v-bind:isOpen="isOpen">
-				<button class="btn btn-icon btn-text btn-dark">
+			<slot name="header" v-bind="{isOpen}">
+				<button class="btn btn-icon btn-text">
 					<Icon name="menu-swap"/>
 				</button>
 			</slot>
@@ -29,7 +29,7 @@
 
 <script>
 
-	import Icon from "./base/Icon";
+	import Icon from "./base/Icon.vue";
 
 	import { dispatch, on } from "../../js/core/action";
 	import { raf } from "../../js/util/dom";
@@ -47,7 +47,9 @@
 
 		created()
 		{
-			on("latte:expandable:open", expandable => this.onExpandableOpened(expandable));
+			this.subscriptions.push(
+				on("latte:expandable:open", expandable => this.onExpandableOpened(expandable))
+			);
 		},
 
 		data()
@@ -56,10 +58,16 @@
 				bodyStyle: {
 					height: "0",
 					overflow: "hidden",
-					transition: "height 210ms var(--ease-swift-out)"
+					transition: "height 210ms var(--easeSwiftOut)"
 				},
-				isOpen: false
+				isOpen: false,
+				subscriptions: []
 			};
+		},
+
+		destroyed()
+		{
+			this.subscriptions.forEach(sub => sub.unsubscribe());
 		},
 
 		mounted()
@@ -127,7 +135,7 @@
 
 			isOpen()
 			{
-				if (this.isOpen)
+				if (this.isOpen && this.group !== null)
 					dispatch("latte:expandable:open", this);
 
 				this.$emit(this.isOpen ? "open" : "close");

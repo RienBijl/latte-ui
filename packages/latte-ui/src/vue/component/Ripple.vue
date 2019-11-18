@@ -25,6 +25,7 @@
 		data()
 		{
 			return {
+				events: [],
 				center: false,
 				clip: true,
 				observer: null,
@@ -39,6 +40,15 @@
 
 			while (this.ripples.length > 0)
 				this.ripples.shift().remove();
+
+			this.$el.removeEventListener("touchcancel", this.events[0]);
+			this.$el.removeEventListener("touchmove", this.events[1]);
+			this.$el.removeEventListener("touchstart", this.events[2]);
+			this.$el.removeEventListener("touchend", this.events[3]);
+
+			this.$el.removeEventListener("mouseleave", this.events[4]);
+			this.$el.removeEventListener("mousedown", this.events[5]);
+			this.$el.removeEventListener("mouseup", this.events[6]);
 		},
 
 		mounted()
@@ -51,14 +61,14 @@
 				this.observer.observe(this.$el);
 			}
 
-			this.$el.addEventListener("touchcancel", onlyTouch(this.onPointerUp), {passive: true});
-			this.$el.addEventListener("touchmove", onlyTouch(this.onPointerUp), {passive: true});
-			this.$el.addEventListener("touchstart", onlyTouch(this.onPointerDown), {passive: true});
-			this.$el.addEventListener("touchend", onlyTouch(this.onPointerUp), {passive: true});
+			this.$el.addEventListener("touchcancel", this.events[0] = onlyTouch(this.onPointerUp), {passive: true});
+			this.$el.addEventListener("touchmove", this.events[1] = onlyTouch(this.onPointerUp), {passive: true});
+			this.$el.addEventListener("touchstart", this.events[2] = onlyTouch(this.onPointerDown), {passive: true});
+			this.$el.addEventListener("touchend", this.events[3] = onlyTouch(this.onPointerUp), {passive: true});
 
-			this.$el.addEventListener("mouseleave", onlyMouse(this.onPointerUp), {passive: true});
-			this.$el.addEventListener("mousedown", onlyMouse(this.onPointerDown), {passive: true});
-			this.$el.addEventListener("mouseup", onlyMouse(this.onPointerUp), {passive: true});
+			this.$el.addEventListener("mouseleave", this.events[4] = onlyMouse(this.onPointerUp), {passive: true});
+			this.$el.addEventListener("mousedown", this.events[5] = onlyMouse(this.onPointerDown), {passive: true});
+			this.$el.addEventListener("mouseup", this.events[6] = onlyMouse(this.onPointerUp), {passive: true});
 		},
 
 		render(h)
@@ -78,8 +88,8 @@
 				const sizeHalf = size / 2;
 
 				const computedStyles = window.getComputedStyle(this.$el);
-				this.center = computedStyles.getPropertyValue("--ripple-center").trim() !== "false";
-				this.clip = computedStyles.getPropertyValue("--ripple-clip").trim() !== "false";
+				this.center = computedStyles.getPropertyValue("--rippleCenter").trim() !== "false";
+				this.clip = computedStyles.getPropertyValue("--rippleClip").trim() !== "false";
 
 				if (this.center)
 				{
@@ -93,23 +103,23 @@
 
 					const minSize = this.center ? 12 : Math.max(size * .1, 24);
 
-					ripple.style.setProperty("--ripple-scale", `${minSize / size}`);
-					ripple.style.setProperty("--ripple-size", `${size}px`);
-					ripple.style.setProperty("--ripple-x", `${x - sizeHalf}px`);
-					ripple.style.setProperty("--ripple-y", `${y - sizeHalf}px`);
+					ripple.style.setProperty("--rippleScale", `${minSize / size}`);
+					ripple.style.setProperty("--rippleSize", `${size}px`);
+					ripple.style.setProperty("--rippleX", `${x - sizeHalf}px`);
+					ripple.style.setProperty("--rippleY", `${y - sizeHalf}px`);
 
 					this.$el.querySelector(".ripple-container").appendChild(ripple);
 				});
 
 				raf(() =>
 				{
-					ripple.style.setProperty("--ripple-scale", "1");
+					ripple.style.setProperty("--rippleScale", "1");
 
 					if (this.center)
 						return;
 
-					ripple.style.setProperty("--ripple-x", `${rect.width / 2 - sizeHalf}px`);
-					ripple.style.setProperty("--ripple-y", `${rect.height / 2 - sizeHalf}px`);
+					ripple.style.setProperty("--rippleX", `${rect.width / 2 - sizeHalf}px`);
+					ripple.style.setProperty("--rippleY", `${rect.height / 2 - sizeHalf}px`);
 				});
 
 				return ripple;
@@ -132,7 +142,7 @@
 
 				const ripple = this.ripples.filter(r => !r.classList.contains("is-removing"))[0];
 
-				if (ripple === undefined)
+				if (!ripple)
 					return;
 
 				ripple.classList.add("is-removing");
@@ -157,9 +167,9 @@
 
 				this.ripples.forEach(ripple =>
 				{
-					ripple.style.setProperty("--ripple-size", `${size}px`);
-					ripple.style.setProperty("--ripple-x", `${rect.width / 2 - sizeHalf}px`);
-					ripple.style.setProperty("--ripple-y", `${rect.height / 2 - sizeHalf}px`);
+					ripple.style.setProperty("--rippleSize", `${size}px`);
+					ripple.style.setProperty("--rippleX", `${rect.width / 2 - sizeHalf}px`);
+					ripple.style.setProperty("--rippleY", `${rect.height / 2 - sizeHalf}px`);
 				});
 			}
 

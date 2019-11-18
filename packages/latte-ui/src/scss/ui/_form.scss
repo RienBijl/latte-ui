@@ -9,20 +9,69 @@
 
 :root
 {
-	--form-field-outline: var(--outline-color);
+	--formOutline: var(--outlineColor);
+	--formOutlineForeground: var(--mainForeground);
+}
+
+.form-control
+{
+	position: relative;
+	display: flex;
+	min-height: 48px;
+	padding: 10px 15px;
+	width: 100%;
+	align-items: center;
+	background: transparent;
+	border: 2px solid #{latte-rgba(var(--formOutline), .75)};
+	border-radius: var(--radius);
+	color: #{latte-rgb(var(--mainForeground))};
+	outline: 0;
+	transition: 210ms var(--easeSwiftOut);
+	transition-property: border-color;
+
+	&:focus,
+	&:focus-within
+	{
+		border-color: #{latte-rgb(var(--formOutline))};
+	}
+
+	&::placeholder
+	{
+		color: currentColor;
+		opacity: .5;
+	}
+
+	&[disabled]
+	{
+		cursor: not-allowed;
+		background: #{latte-rgba(var(--formOutline), .25)};
+	}
+}
+
+select.form-control
+{
+	appearance: none;
+	background:
+	{
+		color: transparent;
+		image: unquote("url(" + $latte-root + "image/select-arrow.svg)");
+		position: center right 9px;
+		repeat: no-repeat;
+		size: 24px 24px;
+	}
+
+	option
+	{
+		background: #{latte-rgb(var(--panelBackground))};
+	}
 }
 
 .form-group
 {
 	position: relative;
-	display: block;
+	display: flex;
 
-	&.row
-	{
-		display: flex;
-	}
-
-	+ div.form-group
+	+ .form-group
 	{
 		margin-top: 1rem;
 	}
@@ -39,11 +88,11 @@ label.col-form-label
 
 .custom-range
 {
-	--range-thumb-size: 24px;
-	--range-track-height: 6px;
+	--rangeThumbSize: 24px;
+	--rangeTrackHeight: 6px;
 
 	appearance: none;
-	height: var(--range-thumb-size);
+	height: var(--rangeThumbSize);
 	padding: 0;
 	width: 100%;
 	background: transparent;
@@ -62,14 +111,14 @@ label.col-form-label
 	&::-webkit-slider-thumb
 	{
 		appearance: none;
-		height: var(--range-thumb-size);
-		width: var(--range-thumb-size);
-		margin-top: calc((var(--range-track-height) - var(--range-thumb-size)) / 2);
-		background: #{latte-rgb(var(--color-primary))};
-		border: 3px solid #{latte-rgb(var(--panel-background))};
-		border-radius: var(--range-thumb-size);
+		height: var(--rangeThumbSize);
+		width: var(--rangeThumbSize);
+		margin-top: calc((var(--rangeTrackHeight) - var(--rangeThumbSize)) / 2);
+		background: #{latte-rgb(var(--colorPrimary))};
+		border: 3px solid #{latte-rgb(var(--panelBackground))};
+		border-radius: var(--rangeThumbSize);
 		cursor: pointer;
-		transition: transform 120ms var(--ease-swift-out);
+		transition: transform 120ms var(--easeSwiftOut);
 
 		&:active
 		{
@@ -79,23 +128,23 @@ label.col-form-label
 
 	&::-webkit-slider-runnable-track
 	{
-		height: var(--range-track-height);
+		height: var(--rangeTrackHeight);
 		width: 100%;
-		background: #{latte-rgb(var(--form-field-outline))};
-		border-radius: var(--border-radius);
+		background: #{latte-rgb(var(--formOutline))};
+		border-radius: var(--radius);
 		color: transparent; // ...?
 	}
 
 	&::-moz-range-thumb
 	{
 		appearance: none;
-		height: calc(var(--range-thumb-size) - 6px);
-		width: calc(var(--range-thumb-size) - 6px);
-		background: #{latte-rgb(var(--color-primary))};
-		border: 3px solid #{latte-rgb(var(--panel-background))};
-		border-radius: var(--range-thumb-size);
+		height: calc(var(--rangeThumbSize) - 6px);
+		width: calc(var(--rangeThumbSize) - 6px);
+		background: #{latte-rgb(var(--colorPrimary))};
+		border: 3px solid #{latte-rgb(var(--panelBackground))};
+		border-radius: var(--rangeThumbSize);
 		cursor: pointer;
-		transition: transform 120ms var(--ease-swift-out);
+		transition: transform 120ms var(--easeSwiftOut);
 
 		&:active
 		{
@@ -105,10 +154,10 @@ label.col-form-label
 
 	&::-moz-range-track
 	{
-		height: var(--range-track-height);
+		height: var(--rangeTrackHeight);
 		width: 100%;
-		background: #{latte-rgb(var(--form-field-outline))};
-		border-radius: var(--border-radius);
+		background: #{latte-rgb(var(--formOutline))};
+		border-radius: var(--radius);
 		border-color: transparent; // ...?
 		color: transparent; // ...?
 	}
@@ -116,14 +165,14 @@ label.col-form-label
 	&::-ms-thumb
 	{
 		appearance: none;
-		height: var(--range-thumb-size);
-		width: var(--range-thumb-size);
+		height: var(--rangeThumbSize);
+		width: var(--rangeThumbSize);
 		margin-top: 0;
-		background: #{latte-rgb(var(--color-primary))};
-		border: 3px solid #{latte-rgb(var(--panel-background))};
-		border-radius: var(--range-thumb-size);
+		background: #{latte-rgb(var(--colorPrimary))};
+		border: 3px solid #{latte-rgb(var(--panelBackground))};
+		border-radius: var(--rangeThumbSize);
 		cursor: pointer;
-		transition: transform 120ms var(--ease-swift-out);
+		transition: transform 120ms var(--easeSwiftOut);
 
 		&:active
 		{
@@ -134,11 +183,11 @@ label.col-form-label
 
 	&::-ms-track
 	{
-		height: var(--range-track-height);
+		height: var(--rangeTrackHeight);
 		width: 100%;
-		background: #{latte-rgb(var(--form-field-outline))};
-		border-radius: var(--border-radius);
-		border-width: calc(var(--range-thumb-size) / 2);
+		background: #{latte-rgb(var(--formOutline))};
+		border-radius: var(--radius);
+		border-width: calc(var(--rangeThumbSize) / 2);
 		color: transparent; // ...?
 	}
 
@@ -150,146 +199,18 @@ label.col-form-label
 	}
 }
 
-.custom-select
-{
-	display: block;
-	appearance: none;
-	padding: 8px 16px;
-	width: 100%;
-	background:
-	{
-		color: transparent;
-		image: unquote("url(" + $latte-root + "image/select-arrow.svg)");
-		position: center right 9px;
-		repeat: no-repeat;
-		size: 24px 24px;
-	}
-	border: 0;
-	border-radius: var(--border-radius);
-	box-shadow: 0 0 0 1px #{latte-rgb(var(--form-field-outline))};
-	color: currentColor;
-	font-size: 1rem;
-	line-height: 26px;
-	outline: none;
-	transition: all 180ms var(--ease-standard-curve);
-	vertical-align: middle;
-
-	&::placeholder
-	{
-		color: currentColor;
-		opacity: .5;
-	}
-
-	&:focus
-	{
-		box-shadow: 0 0 0 1px #{latte-rgba(var(--color-primary), .75)};
-	}
-
-	&[disabled]
-	{
-		background-color: rgba(0, 0, 0, .025);
-	}
-
-	option
-	{
-		background: #{latte-rgb(var(--panel-background))};
-	}
-}
-
-.form-control,
-.form-control-plain
-{
-	position: relative;
-	display: block;
-	margin: 0;
-	padding: 8px 16px;
-	width: 100%;
-	background: transparent;
-	border: 0;
-	border-radius: inherit;
-	color: currentColor;
-	font-size: 1rem;
-	line-height: 26px;
-	outline: none;
-	vertical-align: middle;
-
-	&.form-control-sm
-	{
-		padding: 4px 8px;
-		line-height: 1em;
-	}
-
-	&[disabled]
-	{
-		background: rgba(0, 0, 0, .025);
-		pointer-events: none;
-	}
-}
-
-.form-control
-{
-	display: flex;
-	align-items: center;
-	border-radius: var(--border-radius);
-	box-shadow: 0 0 0 1px #{latte-rgb(var(--form-field-outline))};
-	transition: box-shadow 180ms var(--ease-standard-curve);
-	z-index: 0;
-
-	&::placeholder
-	{
-		color: currentColor;
-		opacity: .5;
-	}
-
-	&:focus,
-	&:focus-within
-	{
-		box-shadow: 0 0 0 1px #{latte-rgba(var(--color-primary), .75)};
-	}
-
-	> input.form-control-plain
-	{
-		flex: 1 1 auto;
-	}
-
-	.form-control-prefix,
-	.form-control-suffix
-	{
-		margin: -6px 12px;
-		flex: 0 0 auto;
-		z-index: 1;
-	}
-
-	.form-control-prefix
-	{
-		margin-left: -6px;
-	}
-
-	.form-control-suffix
-	{
-		margin-right: -6px;
-	}
-}
-
-input.form-control
-{
-	display: block;
-}
-
-.form-control > .form-control-plain
-{
-	margin: -8px -16px;
-}
-
-.form-control.form-control-sm > .form-control-plain
-{
-	margin: -4px -8px;
-	padding: 4px 8px;
-}
-
 .form-text
 {
 	position: relative;
 	display: block;
-	margin: 6px 16px;
+	margin: 9px 15px;
+}
+
+@each $type in $color-types
+{
+	.form-control-#{to-lower-case($type)}
+	{
+		--formOutline: var(--color#{$type});
+		--formOutlineForeground: var(--color#{$type}Foreground);
+	}
 }

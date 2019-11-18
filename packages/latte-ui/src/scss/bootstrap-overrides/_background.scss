@@ -7,17 +7,32 @@
  * LICENSE file that was distributed with this source code.
  */
 
-@each $type in $theme-color-types
+@each $type in $color-types
 {
-	.bg-#{$type}
+	.bg-#{to-lower-case($type)}
 	{
-		background-color: #{latte-rgb(var(--color-#{$type}))};
+		background-color: #{latte-rgb(var(--color#{$type}))};
 	}
+}
+
+.bg-black
+{
+	background-color: black;
 }
 
 .bg-white
 {
-	background-color: $white !important;
+	background-color: white;
+}
+
+.bg-main
+{
+	background-color: #{latte-rgb(var(--mainBackground))};
+}
+
+.bg-panel
+{
+	background-color: #{latte-rgb(var(--panelBackground))};
 }
 
 .bg-transparent

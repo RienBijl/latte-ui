@@ -9,90 +9,94 @@
 
 <template>
 
-	<table class="table table-hover mb-0">
-		<thead>
+	<div class="table-overflow" :class="{'is-loading': isLoading}">
+		<table class="table table-hover mb-0">
+			<thead>
 
-		<tr v-if="showHeader">
-			<slot name="data-header" :columns="columns" :is-loading="isLoading" :is-selection-mode="isSelectionMode" :selection="selection" :select-mode="selectMode" :unique-id="uniqueId">
-				<th v-if="isSelectionMode" style="width: 42px"></th>
-				<th v-for="column in columns" :data-field="column.field" :style="{'min-width': (column.width ? column.width + 'px' : 'auto'), 'width': (column.width ? column.width + 'px' : 'auto') }">
-					<div class="column-content flex-row align-items-center justify-content-start">
-						<span>{{ column.label }}</span>
-						<button v-if="showSorting && column.is_sortable" class="btn btn-icon btn-text btn-sm ml-1" :class="{'btn-dark': sort.by !== column.field, 'btn-primary': sort.by === column.field}" :aria-label="'Sort by @0'|i18n('latte-ui', [column.label])" @click="sortBy(column.field)">
-							<Icon name="sort-ascending" v-if="sort.by === column.field && sort.order === 'ASC'"/>
-							<Icon name="sort-descending" v-else-if="sort.by === column.field && sort.order === 'DESC'"/>
-							<Icon name="sort" v-else/>
-						</button>
-					</div>
-				</th>
-				<th v-if="hasActions" :style="{'width': actionsWidth + 'px'}">
-					<div class="column-content"><span>&nbsp;</span></div>
-				</th>
-			</slot>
-		</tr>
+			<tr v-if="showHeader">
+				<slot name="data-header" :columns="columns" :is-loading="isLoading" :is-selection-mode="isSelectionMode" :selection="selection" :select-mode="selectMode" :unique-id="uniqueId">
+					<th v-if="isSelectionMode" style="width: 42px"></th>
+					<th v-for="column in columns" :data-field="column.field" :style="{'min-width': (column.width ? column.width + 'px' : 'auto'), 'width': (column.width ? column.width + 'px' : 'auto') }">
+						<div class="column-content flex-row align-items-center justify-content-start">
+							<span>{{ column.label }}</span>
+							<button v-if="showSorting && column.is_sortable" class="btn btn-icon btn-text btn-sm ml-1" :class="{'btn-primary': sort.by === column.field}" :aria-label="'Sort by @0'|i18n('latte-ui', [column.label])" @click="sortBy(column.field)">
+								<Icon name="sort-ascending" v-if="sort.by === column.field && sort.order === 'ASC'"/>
+								<Icon name="sort-descending" v-else-if="sort.by === column.field && sort.order === 'DESC'"/>
+								<Icon name="sort" v-else/>
+							</button>
+						</div>
+					</th>
+					<th v-if="hasActions" style="width: 52px">
+						<div class="column-content"><span>&nbsp;</span></div>
+					</th>
+				</slot>
+			</tr>
 
-		<tr class="search-row" v-if="showSearch">
-			<slot name="data-search" :columns="columns" :is-loading="isLoading" :is-selection-mode="isSelectionMode" :search="search" :selection="selection" :select-mode="selectMode" :unique-id="uniqueId">
-				<th v-if="isSelectionMode" style="width:42px"></th>
-				<th v-for="column in columns" :data-field="column.field" :style="{'width': (column.width ? column.width + 'px' : 'auto') }">
-					<input v-if="column.is_searchable" type="search" :placeholder="'Search'|i18n('latte-ui')" :aria-label="'Search by @0'|i18n('data-table', [column.label])" v-model.lazy="params[column.field]" @keydown.enter="search(column.field, $event.target.value, $event)"/>
-				</th>
-				<th v-if="hasActions"></th>
-			</slot>
-		</tr>
+			<tr class="search-row" v-if="showSearch">
+				<slot name="data-search" :columns="columns" :is-loading="isLoading" :is-selection-mode="isSelectionMode" :search="search" :selection="selection" :select-mode="selectMode" :unique-id="uniqueId">
+					<th v-if="isSelectionMode" style="width:42px"></th>
+					<th v-for="column in columns" :data-field="column.field" :style="{'width': (column.width ? column.width + 'px' : 'auto') }">
+						<input v-if="column.is_searchable" type="search" :placeholder="'Search'|i18n('latte-ui')" :aria-label="'Search by @0'|i18n('data-table', [column.label])" v-model.lazy="params[column.field]" @keydown.enter="search(column.field, $event.target.value, $event)"/>
+					</th>
+					<th v-if="hasActions"></th>
+				</slot>
+			</tr>
 
-		<tr v-if="filters.length > 0">
-			<td :colspan="amountOfColumns">
-				<div class="column-content flex-row justify-content-start">
+			<tr v-if="filters.length > 0">
+				<td :colspan="amountOfColumns">
+					<div class="column-content flex-row justify-content-start">
 
-					<template v-for="(filter, filterKey) of filters">
+						<template v-for="(filter, filterKey) of filters">
 						<span class="badge mr-1" :class="filter.class">
 							<span>{{ filter.label }}</span>
 							<button class="btn" @click="removeFilter($event, filterKey)">
 								<Icon name="close"/>
 							</button>
 						</span>
+						</template>
+
+					</div>
+				</td>
+			</tr>
+
+			</thead>
+			<tbody>
+
+			<tr v-for="(row, rowKey) in data">
+				<slot name="data-row" :actions="actions" :columns="columns" :has-actions="hasActions" :is-loading="isLoading" :row="row" :row-key="rowKey" :is-selection-mode="isSelectionMode" :selection="selection" :select-mode="selectMode" :unique-id="uniqueId">
+					<td v-if="isSelectionMode" style="width:42px;z-index:1">
+						<label class="column-content pr-0">
+							<input type="radio" class="radio-button radio-button-primary mr-0" :id="uniqueId + ':' + row.id" :name="name" :value="row.id" v-if="selectMode === 'single'" v-model="selection"/>
+							<input type="checkbox" class="checkbox checkbox-primary mr-0" :id="uniqueId + ':' + row.id" :name="name + '[]'" :value="row.id" v-if="selectMode === 'multiple'" v-model="selection"/>
+						</label>
+					</td>
+
+					<template v-for="(column, columnKey) in columns">
+						<td :data-field="column.field" :data-row="rowKey" :data-column="columnKey" :style="{'width': (column.width ? column.width + 'px' : 'auto') }">
+							<component :is="createRowColumn(row, column)"></component>
+						</td>
 					</template>
 
-				</div>
-			</td>
-		</tr>
+					<latte-data-table-actions :actions="actions" :row="row" v-if="hasActions"></latte-data-table-actions>
+				</slot>
+			</tr>
 
-		</thead>
-		<tbody>
+			</tbody>
+			<tfoot>
 
-		<tr v-for="(row, rowKey) in data">
-			<slot name="data-row" :actions="actions" :columns="columns" :has-actions="hasActions" :is-loading="isLoading" :row="row" :row-key="rowKey" :is-selection-mode="isSelectionMode" :selection="selection" :select-mode="selectMode" :unique-id="uniqueId">
-				<td v-if="isSelectionMode" style="width:42px;z-index:1">
-					<label class="column-content pr-0">
-						<input type="radio" class="radio-button radio-button-primary mr-0" :id="uniqueId + ':' + row.id" :name="name" :value="row.id" v-if="selectMode === 'single'" v-model="selection"/>
-						<input type="checkbox" class="checkbox checkbox-primary mr-0" :id="uniqueId + ':' + row.id" :name="name + '[]'" :value="row.id" v-if="selectMode === 'multiple'" v-model="selection"/>
-					</label>
-				</td>
+			<tr v-if="total > limit">
+				<th :colspan="amountOfColumns">
+					<div class="column-content">
+						<latte-pagination controller-bar :limit="limit" :offset="offset" :total="total" @limit="setLimit" @navigate="navigateToOffset"></latte-pagination>
+					</div>
+				</th>
+			</tr>
 
-				<template v-for="(column, columnKey) in columns">
-					<td :data-field="column.field" :data-row="rowKey" :data-column="columnKey" :style="{'width': (column.width ? column.width + 'px' : 'auto') }">
-						<component :is="createRowColumn(row, column)"></component>
-					</td>
-				</template>
+			</tfoot>
+		</table>
 
-				<latte-data-table-actions :actions="actions" :row="row" v-if="hasActions"></latte-data-table-actions>
-			</slot>
-		</tr>
-
-		</tbody>
-		<tfoot>
-
-		<tr v-if="total > limit">
-			<th :colspan="amountOfColumns">
-				<div class="column-content">
-					<latte-pagination controller-bar :limit="limit" :offset="offset" :total="total" @limit="setLimit" @navigate="navigateToOffset"></latte-pagination>
-				</div>
-			</th>
-		</tr>
-
-		</tfoot>
-	</table>
+		<span class="spinner spinner-primary" v-if="spinner"></span>
+	</div>
 
 </template>
 
@@ -102,16 +106,17 @@
 
 	import { on } from "../../js/core/action";
 	import { id, request } from "../../js/core/api";
-	import { closest, createElement } from "../../js/util/dom";
+	import { terminateEvent } from "../../js/util/dom";
 	import { isNullOrWhitespace } from "../../js/util/string";
 	import { handleError } from "../../js/core";
 	import { oneOf } from "../../js/helper/array";
-	import Icon from "./base/Icon";
+
+	import Icon from "./base/Icon.vue";
 
 	const badgesHTML = `	<template v-for="badge of (row.badges || [])">
-											<a class="badge ml-2" :class="['badge-' + badge.type]" @click="applyFilter($event, badge.filter, badge.type)" v-if="badge.filter !== null">{{ badge.message }}</a>
-											<span class="badge ml-2" :class="['badge-' + badge.type]" v-if="badge.filter === null">{{ badge.message }}</span>
-										</template>`;
+								<a class="badge ml-2" :class="['badge-' + badge.type]" @click="applyFilter($event, badge.filter, badge.type)" v-if="badge.filter !== null">{{ badge.message }}</a>
+								<span class="badge ml-2" :class="['badge-' + badge.type]" v-if="badge.filter === null">{{ badge.message }}</span>
+							</template>`;
 
 	const columnDefaults = {
 		is_searchable: false,
@@ -173,7 +178,6 @@
 		name: "latte-data-table",
 
 		props: {
-			addSpinnerToParent: {default: false, type: Boolean},
 			dataSource: {default: null, required: true, type: Function | String | null},
 			defaultLimit: {default: 20, type: Number},
 			name: {default: () => id(), type: String},
@@ -182,23 +186,19 @@
 			showHeader: {default: true, type: Boolean},
 			showSearch: {default: true, type: Boolean},
 			showSorting: {default: true, type: Boolean},
+			spinner: {default: true, type: Boolean},
 			value: {default: () => [], type: Array | Number}
 		},
 
 		beforeDestroy()
 		{
-			if (this.spinner !== null)
-				this.spinner.remove();
-
-			this.subscriptions.refresh.unsubscribe();
+			this.subscriptions.forEach(sub => sub.unsubscribe());
 		},
 
 		data()
 		{
 			return {
-				subscriptions: {
-					refresh: null
-				},
+				subscriptions: [],
 				isLoading: false,
 				actions: [],
 				columns: [],
@@ -215,7 +215,6 @@
 					by: "",
 					order: 'DESC'
 				},
-				spinner: null,
 				total: 0,
 				uniqueId: id()
 			};
@@ -223,17 +222,12 @@
 
 		mounted()
 		{
-			this.subscriptions.refresh = on("data-tables:refresh", () => this.reload());
-
-			this.addSpinner();
+			this.subscriptions.push(
+				on("data-tables:refresh", () => this.reload())
+			);
 		},
 
 		computed: {
-
-			actionsWidth()
-			{
-				return 52;
-			},
 
 			amountOfColumns()
 			{
@@ -260,9 +254,8 @@
 			addFilter(filter)
 			{
 				for (let i in this.filters)
-					if (this.filters.hasOwnProperty(i))
-						if (this.filters[i].property === filter.property && this.filters[i]["value"] === filter["value"])
-							return;
+					if (this.filters[i].property === filter.property && this.filters[i]["value"] === filter["value"])
+						return;
 
 				this.offset = 0;
 
@@ -270,15 +263,6 @@
 
 				this.filters.push(filter);
 				this.loadData();
-			},
-
-			addSpinner()
-			{
-				if (!this.addSpinnerToParent)
-					return;
-
-				this.spinner = createElement("span", span => span.classList.add("spinner", "spinner-primary"));
-				closest(this.$el, ".panel").append(this.spinner);
 			},
 
 			removeFilter(evt, filterKey)
@@ -360,10 +344,10 @@
 				this.actions = this.dsi.actions;
 				this.columns = this.dsi.columns.map(column => Object.assign({}, columnDefaults, column));
 
-				if (this.dsi.sorting !== undefined)
+				if (this.dsi.sorting)
 					this.sort = this.dsi.sorting;
 
-				if (this.dsi.initial_data !== undefined)
+				if (this.dsi.initial_data)
 					this.onReceivedData(this.dsi.initial_data);
 				else
 					this.loadData();
@@ -395,10 +379,7 @@
 			search(field, value, evt)
 			{
 				if (evt)
-				{
-					evt.preventDefault();
-					evt.stopPropagation();
-				}
+					terminateEvent(evt);
 
 				this.params[field] = value;
 				this.offset = 0;
@@ -436,7 +417,7 @@
 				immediate: true,
 				handler()
 				{
-					if (this.dataSource === undefined)
+					if (!this.dataSource)
 						throw new Error("dataSource is undefined.");
 
 					return new Promise(resolve =>
@@ -463,21 +444,6 @@
 						});
 					});
 				}
-			},
-
-			isLoading()
-			{
-				this.$emit("loading", this.isLoading);
-
-				if (!this.addSpinnerToParent)
-					return;
-
-				const parent = closest(this.$el, ".panel");
-
-				if (this.isLoading)
-					parent.classList.add("is-loading");
-				else
-					parent.classList.remove("is-loading");
 			},
 
 			selection()

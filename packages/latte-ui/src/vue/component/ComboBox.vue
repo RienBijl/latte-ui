@@ -13,7 +13,7 @@
 		<a class="combo-box-selection" :class="selectedOptionClasses" v-if="selectedOptionTemplate !== null" v-html="selectedOptionTemplate"></a>
 		<div class="combo-box-empty" v-else>Select...</div>
 
-		<button class="btn btn-text btn-icon btn-dark form-control-suffix" type="button">
+		<button class="btn btn-text btn-icon form-control-suffix" type="button">
 			<Icon name="chevron-down"/>
 		</button>
 
@@ -30,8 +30,9 @@
 
 <script>
 
-	import { raf } from "../../js/util/dom";
-	import Icon from "./base/Icon";
+	import { raf, terminateEvent } from "../../js/util/dom";
+
+	import Icon from "./base/Icon.vue";
 
 	export default {
 
@@ -60,7 +61,7 @@
 			{
 				const option = this.options[this.selectedOptionIndex];
 
-				if (option !== undefined)
+				if (option)
 					return option;
 
 				return null;
@@ -142,7 +143,7 @@
 
 				this.close();
 
-				evt.preventDefault();
+				terminateEvent(evt);
 			},
 
 			onKeyPressUp()

@@ -105,32 +105,32 @@
 	color: $white !important;
 }
 
-@each $type in $theme-color-types
+@each $type in $color-types
 {
-	.text-#{$type}
+	.text-#{to-lower-case($type)}
 	{
-		color: #{latte-rgb(var(--color-#{$type}))} !important;
+		color: #{latte-rgb(var(--color#{$type}))} !important;
 	}
 }
 
 .text-body
 {
-	color: $body-color !important;
+	color: var(--mainForeground) !important;
 }
 
 .text-muted
 {
-	color: $text-muted !important;
+	opacity: .5;
 }
 
-.text-black-50
+.text-light-50
 {
-	color: rgba($black, .5) !important;
+	color: rgba(var(--colorLight), .5) !important;
 }
 
-.text-white-50
+.text-dark-50
 {
-	color: rgba($white, .5) !important;
+	color: rgba(var(--colorDark), .5) !important;
 }
 
 .text-decoration-none

@@ -9,7 +9,7 @@
 
 <template>
 
-	<button class="btn btn-icon btn-text btn-dark">
+	<button class="btn btn-icon btn-text">
 		<Icon name="sticker-emoji"/>
 
 		<latte-popup ref="popup" :associate-with="$el" :margin-x="-9" @open="onOpen">
@@ -53,7 +53,7 @@
 
 	import { emojiBaseUrl, ensureEmojisReady, getCategories, getEmoji, getEmojisForCategory, skinTones } from "../../js/ui/emoji";
 	import { createElement } from "../../js/util/dom";
-	import Icon from "./base/Icon";
+	import Icon from "./base/Icon.vue";
 
 	let isSpriteCssLoaded = false;
 
@@ -119,7 +119,7 @@
 			{
 				let cat = this.categories[this.currentCategory] || "";
 
-				return cat !== undefined && (cat.id === "activity" || cat.id === "people");
+				return cat && (cat.id === "activity" || cat.id === "people");
 			}
 
 		},

@@ -1,0 +1,62 @@
+.be-block-mount
+{
+	position: relative;
+	display: contents;
+
+	.be-block-view
+	{
+		position: relative;
+
+		&::after
+		{
+			position: absolute;
+			display: block;
+			top: -15px;
+			left: -15px;
+			right: -15px;
+			bottom: -15px;
+			content: "";
+			border: 2px dashed rgba(var(--colorPrimary), .5);
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 60ms var(--easeSwiftOut);
+		}
+	}
+
+	&:not(.is-selection-inside) > .be-parent > .be-block-mount
+	{
+		pointer-events: none;
+	}
+
+	&.is-selection-inside > .be-group > .be-block-mount > .be-parent::after
+	{
+		display: none;
+	}
+
+	&.is-selection-inside > .be-group > .be-block-mount > .be-parent > .be-block-mount
+	{
+		pointer-events: all;
+	}
+
+	&:hover > .be-block-view::after
+	{
+		opacity: .25;
+	}
+
+	&:not(.is-selected).is-selection-inside > .be-block-view::after
+	{
+		border-color: rgba(var(--outlineColor), 1);
+		opacity: 1;
+	}
+
+	&.is-selected
+	{
+		z-index: 1;
+
+		& > .be-block-view::after
+		{
+			opacity: 1;
+			z-index: 1;
+		}
+	}
+}

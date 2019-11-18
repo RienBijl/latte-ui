@@ -47,22 +47,27 @@
 
 		render(h)
 		{
-			return h(
-				"div",
-				{
-					class: ["window", `window-${this.direction}`],
-					style: {
-						"--window-height": `${this.height}px`,
-						"--window-width": `${this.width}px`
-					}
-				},
-				this.$scopedSlots.default({
+			const defaultSlotElements = this.$scopedSlots
+				.default({
 					current: this.current,
 					navigate: this.navigate,
 					back: this.back,
 					forward: this.forward,
 					reset: this.reset
-				}).map(view => h("div", {class: ["window-view", `window-${this.direction}`]}, [view]))
+				})
+				.filter(view => !!view.tag)
+				.map(view => h("div", {class: ["window-view", `window-${this.direction}`]}, [view]));
+
+			return h(
+				"div",
+				{
+					class: ["window", `window-${this.direction}`],
+					style: {
+						"--windowHeight": `${this.height}px`,
+						"--windowWidth": `${this.width}px`
+					}
+				},
+				defaultSlotElements
 			);
 		},
 

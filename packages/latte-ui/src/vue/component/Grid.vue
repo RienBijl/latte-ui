@@ -9,7 +9,7 @@
 
 <template>
 
-	<div ref="grid" class="latte-grid" :class="{'is-dragging': is_dragging}" :style="styles" role="grid">
+	<div ref="grid" class="latte-grid" :class="{'is-dragging': isDragging}" :style="styles" role="grid">
 		<slot></slot>
 		<latte-grid-item class="latte-grid-placeholder" v-show="isDragging" :x="placeholder.x" :y="placeholder.y" :height="placeholder.height" :width="placeholder.width" id="__placeholder__"></latte-grid-item>
 	</div>
@@ -116,7 +116,7 @@
 
 		computed: {
 
-			is_dragging()
+			isDragging()
 			{
 				return this.isDragging;
 			},
@@ -158,7 +158,7 @@
 
 				let item = getLayoutItem(this.layout, id);
 
-				if (item === undefined || item === null)
+				if (!item)
 					item = {x: 0, y: 0};
 
 				item.x = x;
@@ -215,7 +215,7 @@
 
 				let item = getLayoutItem(this.layout, id);
 
-				if (item === undefined || item === null)
+				if (!item)
 					item = {height: 0, width: 0};
 
 				item.height = height;

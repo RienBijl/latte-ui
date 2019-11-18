@@ -14,7 +14,7 @@
 		<template v-if="controllerBar">
 			<div class="d-flex align-items-center mr-auto">
 
-				<button ref="entriesButton" class="btn btn-sm btn-text btn-dark btn-small pr-1" style="--btn-height: 30px">
+				<button ref="entriesButton" class="btn btn-sm btn-text btn-small pr-1" style="--btnHeight: 30px">
 					<span>{{ "@0 entries"|i18n("latte-ui", limit) }}</span>
 					<Icon name="menu-swap"/>
 				</button>
@@ -69,7 +69,7 @@
 	import { Buttons, prompt } from "../../js/ui/message";
 	import { translate } from "../../js/i18n";
 	import { clamp } from "../../js/math";
-	import Icon from "./base/Icon";
+	import Icon from "./base/Icon.vue";
 
 	export default {
 
@@ -80,18 +80,12 @@
 		props: {
 			controllerBar: {default: false, type: Boolean},
 			limit: {default: 10, required: true, type: Number},
+			limits: {default: () => [5, 10, 20, 50, 100], type: Array},
 			navigationControls: {default: true, type: Boolean},
 			offset: {default: 0, type: Number},
 			sizeEnd: {default: 2, type: Number, validator: num => num >= 0},
 			sizeMid: {default: 1, type: Number, validator: num => num >= 0},
 			total: {default: 0, required: true, type: Number}
-		},
-
-		data()
-		{
-			return {
-				limits: [5, 10, 20, 50, 100]
-			};
 		},
 
 		computed: {

@@ -9,23 +9,24 @@
 
 :root
 {
-	--toggle-background: var(--color-primary);
-	--toggle-foreground: var(--color-primary-foreground);
+	--toggleBackground: var(--colorPrimary);
+	--toggleForeground: var(--colorPrimaryForeground);
 }
 
 .toggle-button
 {
 	position: relative;
 	display: inline-block;
+	appearance: none;
+	margin: 0;
 	height: 24px;
 	width: 36px;
-	appearance: none;
 	flex: 0 0 auto;
-	border: 2px solid #{latte-rgb(var(--form-field-outline))};
+	border: 2px solid #{latte-rgb(var(--formOutline))};
 	border-radius: 12px;
 	cursor: pointer;
-	outline: none;
-	transition: 240ms var(--ease-swift-out);
+	outline: 0;
+	transition: 180ms var(--easeSwiftOut);
 	transition-property: background, border-color;
 	vertical-align: middle;
 
@@ -36,26 +37,25 @@
 		margin: 4px;
 		width: 12px;
 		content: "";
-		background: #{latte-rgb(var(--form-field-outline))};
-		border-radius: 7px;
-		transform: translate3d(0, 0, 0);
+		background: #{latte-rgb(var(--formOutline))};
+		border-radius: inherit;
 		transition: inherit;
 		transition-property: background, transform;
 	}
 
 	&:focus
 	{
-		border-color: #{latte-rgb(var(--toggle-background))};
+		border-color: #{latte-rgb(var(--toggleBackground))};
 	}
 
 	&:checked
 	{
-		background: #{latte-rgb(var(--toggle-background))};
-		border-color: #{latte-rgb(var(--toggle-background))};
+		background: #{latte-rgb(var(--toggleBackground))};
+		border-color: #{latte-rgb(var(--toggleBackground))};
 
 		&::before
 		{
-			background: #{latte-rgb(var(--toggle-foreground))};
+			background: #{latte-rgb(var(--toggleForeground))};
 			transform: translate3d(12px, 0, 0);
 		}
 	}
@@ -65,15 +65,14 @@
 		cursor: not-allowed;
 		filter: grayscale(100%);
 		opacity: .5;
-		pointer-events: none;
 	}
 }
 
-@each $type in $theme-color-types
+@each $type in $color-types
 {
-	.toggle-button-#{$type}
+	.toggle-button-#{to-lower-case($type)}
 	{
-		--toggle-background: var(--color-#{$type});
-		--toggle-foreground: var(--color-#{$type}-foreground);
+		--toggleBackground: var(--color#{$type});
+		--toggleForeground: var(--color#{$type}Foreground);
 	}
 }

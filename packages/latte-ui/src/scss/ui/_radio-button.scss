@@ -9,8 +9,8 @@
 
 :root
 {
-	--radio-background: var(--color-primary);
-	--radio-foreground: var(--color-primary-foreground);
+	--radioBackground: var(--colorPrimary);
+	--radioForeground: var(--colorPrimaryForeground);
 }
 
 input[type=radio].radio-button
@@ -18,15 +18,16 @@ input[type=radio].radio-button
 	position: relative;
 	display: inline-block;
 	appearance: none;
+	margin: 0;
 	height: 24px;
 	width: 24px;
 	flex: 0 0 auto;
-	background: transparent;
-	border: 2px solid #{latte-rgb(var(--form-field-outline))};
+	border: 2px solid #{latte-rgb(var(--formOutline))};
 	border-radius: 12px;
 	cursor: pointer;
-	outline: none;
-	transition: all 180ms var(--ease-swift-out);
+	outline: 0;
+	transition: 180ms var(--easeSwiftOut);
+	transition-property: background, border-color;
 	vertical-align: middle;
 
 	&::before
@@ -40,25 +41,26 @@ input[type=radio].radio-button
 		background: transparent;
 		border-radius: 7px;
 		transition: inherit;
+		transition-property: background;
 	}
 
 	&:hover::before
 	{
-		background: #{latte-rgb(var(--form-field-outline))};
+		background: #{latte-rgb(var(--formOutline))};
 	}
 
 	&:focus
 	{
-		border-color: #{latte-rgb(var(--radio-background))};
+		border-color: #{latte-rgb(var(--radioBackground))};
 	}
 
 	&:checked
 	{
-		border-color: #{latte-rgb(var(--radio-background))};
+		border-color: #{latte-rgb(var(--radioBackground))};
 
 		&::before
 		{
-			background: #{latte-rgb(var(--radio-background))};
+			background: #{latte-rgb(var(--radioBackground))};
 		}
 	}
 
@@ -67,15 +69,14 @@ input[type=radio].radio-button
 		cursor: not-allowed;
 		filter: grayscale(100%);
 		opacity: .5;
-		pointer-events: none;
 	}
 }
 
-@each $type in $theme-color-types
+@each $type in $color-types
 {
-	.radio-button-#{$type}
+	.radio-button-#{to-lower-case($type)}
 	{
-		--radio-background: var(--color-#{$type});
-		--radio-foreground: var(--color-#{$type}-foreground);
+		--radioBackground: var(--color#{$type});
+		--radioForeground: var(--color#{$type}Foreground);
 	}
 }

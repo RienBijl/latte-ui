@@ -1,0 +1,27 @@
+.be-content-mount
+{
+	position: relative;
+	flex-grow: 1;
+	background: rgba(var(--rootBackground), 1);
+
+	.be-content-wrapper
+	{
+		position: relative;
+		display: flex;
+		margin: 77px auto;
+		max-width: var(--rootWidth);
+		align-items: stretch;
+		flex-flow: column;
+	}
+
+	&.code-view textarea
+	{
+		height: 100%;
+		width: 100%;
+		padding: 24px;
+		background: transparent;
+		border: 0;
+		font-size: .9rem;
+		outline: 0;
+	}
+}

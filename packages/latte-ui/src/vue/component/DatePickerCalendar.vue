@@ -12,16 +12,16 @@
 	<div class="panel datepicker-calendar">
 
 		<div class="panel-header border-0 datepicker-calendar-header" :class="[selectedView]">
-			<latte-ripple as="button" class="btn btn-icon btn-text btn-dark m-0 ml-1" @click="navigate(-1)">
+			<latte-ripple as="button" class="btn btn-icon btn-text m-0" @click="navigate(-1)">
 				<Icon name="chevron-left"/>
 			</latte-ripple>
 
 			<div class="btn-group mx-auto">
-				<latte-ripple as="button" class="btn btn-text btn-dark" @click="view('months')"><span>{{ moment(monthBeginDate).format("MMMM") }}</span></latte-ripple>
-				<latte-ripple as="button" class="btn btn-text btn-dark" @click="view('years')"><span>{{ moment(monthBeginDate).format("YYYY") }}</span></latte-ripple>
+				<latte-ripple as="button" class="btn btn-text" @click="view('months')"><span>{{ moment(monthBeginDate).format("MMMM") }}</span></latte-ripple>
+				<latte-ripple as="button" class="btn btn-text" @click="view('years')"><span>{{ moment(monthBeginDate).format("YYYY") }}</span></latte-ripple>
 			</div>
 
-			<latte-ripple as="button" class="btn btn-icon btn-text btn-dark m-0 mr-1" @click="navigate(1)">
+			<latte-ripple as="button" class="btn btn-icon btn-text m-0" @click="navigate(1)">
 				<Icon name="chevron-right"/>
 			</latte-ripple>
 		</div>
@@ -61,7 +61,7 @@
 <script>
 
 	import moment from "moment";
-	import Icon from "./base/Icon";
+	import Icon from "./base/Icon.vue";
 
 	import { raf } from "../../js/util/dom";
 
@@ -91,6 +91,11 @@
 
 			dates()
 			{
+				const value = new Date(this.value);
+				value.setFullYear(this.selectedYear);
+				value.setMonth(this.selectedMonth - 1);
+				value.setDate(1);
+
 				let dates = [];
 				let monthDays = this.monthEndDate.date();
 				let beforeDates = Math.max(0, this.monthBeginDate.weekday());
@@ -100,7 +105,7 @@
 
 				for (let x = 1; x <= monthDays; x++)
 				{
-					const date = new Date(this.value.getTime());
+					const date = new Date(value.getTime());
 					date.setFullYear(this.selectedYear);
 					date.setMonth(this.selectedMonth - 1);
 					date.setDate(x);
@@ -164,9 +169,9 @@
 					classes.push("font-italic", "font-weight-bold");
 
 				if (this.isSelected(date))
-					classes.push("btn-outline", "btn-primary");
+					classes.push("btn-contained", "btn-primary");
 				else
-					classes.push("btn-text", "btn-dark");
+					classes.push("btn-text");
 
 				return classes;
 			},
@@ -176,9 +181,9 @@
 				const classes = ["btn", "m-0", "text-capitalize", "w-100"];
 
 				if (parseInt(month) === this.selectedMonth)
-					classes.push("btn-outline", "btn-primary");
+					classes.push("btn-contained", "btn-primary");
 				else
-					classes.push("btn-text", "btn-dark");
+					classes.push("btn-text");
 
 				return classes;
 			},
@@ -188,9 +193,9 @@
 				const classes = ["btn", "m-0", "w-100"];
 
 				if (parseInt(year) === this.selectedYear)
-					classes.push("btn-outline", "btn-primary");
+					classes.push("btn-contained", "btn-primary");
 				else
-					classes.push("btn-text", "btn-dark");
+					classes.push("btn-text");
 
 				return classes;
 			},

@@ -31,6 +31,25 @@ export function closest(element, selector)
 }
 
 /**
+ * Returns the closest parent component or undefiend when nothing is found.
+ *
+ * @param {Vue} component
+ * @param {String} name
+ *
+ * @returns {Vue}
+ * @author Bas Milius <bas@mili.us>
+ * @since 1.9.0
+ */
+export function closestComponent(component, name)
+{
+	while ((component = component.$parent) !== undefined)
+		if (component.$options.name === name)
+			return component;
+
+	return undefined;
+}
+
+/**
  * Conditional render for vue components.
  *
  * @param {Boolean} condition
@@ -42,10 +61,7 @@ export function closest(element, selector)
  */
 export function conditionalRender(condition, fn)
 {
-	if (!condition)
-		return undefined;
-
-	return fn();
+	return condition ? fn() : undefined;
 }
 
 /**
@@ -62,7 +78,7 @@ export function createElement(tag, fn = undefined)
 {
 	const el = document.createElement(tag);
 
-	if (fn !== undefined)
+	if (fn)
 		fn(el);
 
 	return el;
@@ -242,7 +258,7 @@ export function printDocument(url)
  */
 export function raf(fn, delay = undefined)
 {
-	if (delay !== undefined)
+	if (delay)
 		return setTimeout(() => requestAnimationFrame(fn), delay);
 
 	requestAnimationFrame(fn);
@@ -265,11 +281,11 @@ export function relativeCoordsTo(element, evt)
 	if (!coords)
 		return undefined;
 
-	const rect = element.getBoundingClientRect();
+	const {left, top} = element.getBoundingClientRect();
 
 	return {
-		x: coords.x - rect.left,
-		y: coords.y - rect.top
+		x: coords.x - left,
+		y: coords.y - top
 	};
 }
 

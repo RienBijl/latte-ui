@@ -20,25 +20,25 @@
 
 		&:first-child
 		{
-			border-top-left-radius: var(--border-radius);
-			border-bottom-left-radius: var(--border-radius);
+			border-top-left-radius: var(--radius);
+			border-bottom-left-radius: var(--radius);
 		}
 
 		&:last-child
 		{
-			border-top-right-radius: var(--border-radius);
-			border-bottom-right-radius: var(--border-radius);
+			border-top-right-radius: var(--radius);
+			border-bottom-right-radius: var(--radius);
 		}
 
 		&.btn-text
 		{
-			border-radius: var(--border-radius);
+			border-radius: var(--radius);
 		}
 	}
 
 	.btn + .btn:not(.btn-outline):not(.btn-text)
 	{
-		box-shadow: -1px 0 #{latte-rgba(var(--btn-foreground), .1)};
+		box-shadow: -1px 0 #{latte-rgba(var(--btnForeground), .1)};
 	}
 
 	+ .btn-group

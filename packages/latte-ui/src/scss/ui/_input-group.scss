@@ -1,0 +1,93 @@
+/*!
+ * Copyright (c) 2018-2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Latte UI package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+.input-group-addon
+{
+	position: relative;
+	display: flex;
+	padding: 10px 15px;
+	align-items: flex-start;
+	align-self: stretch;
+	justify-content: center;
+	background: #{latte-rgba(var(--formOutline), .75)};
+	color: #{latte-rgb(var(--formOutlineForeground))};
+	transition: inherit;
+	transition-property: background;
+
+	--checkboxBackground: var(--formOutlineForeground);
+	--checkboxForeground: var(--formOutline);
+	--radioBackground: var(--formOutlineForeground);
+	--radioForeground: var(--formOutline);
+	--toggleBackground: var(--formOutlineForeground);
+	--toggleForeground: var(--formOutline);
+
+	.checkbox,
+	.radio-button,
+	.toggle-button
+	{
+		--formOutline: var(--formOutlineForeground);
+	}
+}
+
+.input-group
+{
+	@extend .form-control;
+
+	--r: calc(var(--radius) - 2px);
+
+	flex-flow: row wrap;
+	margin: 0;
+	padding: 0;
+
+	.input-group-addon:first-child
+	{
+		padding-left: 13px;
+		border-radius: var(--r) 0 0 var(--r);
+	}
+
+	.input-group-addon:last-child
+	{
+		padding-right: 13px;
+		border-radius: 0 var(--r) var(--r) 0;
+	}
+
+	.badge
+	{
+		margin: 9px;
+		flex-shrink: 0;
+	}
+
+	.form-control
+	{
+		min-height: 44px;
+		min-width: 5em;
+		width: 0;
+		flex-grow: 1;
+		border: 0;
+	}
+
+	> .btn
+	{
+		margin: 0 4px;
+	}
+
+	.popup
+	{
+		position: absolute;
+		top: calc(100% + 6px);
+		width: 100%;
+		transform: translate3d(0, 24px, 0);
+		z-index: 5;
+
+		&.is-open
+		{
+			transform: translate3d(0, 0, 0);
+		}
+	}
+}

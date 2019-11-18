@@ -1,0 +1,126 @@
+/*!
+ * Copyright (c) 2018-2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Latte UI package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+:root
+{
+	--scaffoldingDrawerWidth: 270px;
+}
+
+.scaffolding
+{
+	position: relative;
+	display: grid;
+
+	.sheet-content.sheet-left
+	{
+		height: 100%;
+		width: var(--scaffoldingDrawerWidth);
+		background: #{latte-rgb(var(--panelBackground))};
+		box-shadow: var(--elevation1);
+		overflow: auto;
+	}
+
+	> .btn-fab
+	{
+		position: fixed;
+		right: var(--colorGutter);
+		bottom: var(--colorGutter);
+		z-index: 1004;
+	}
+
+	@include compact
+	{
+		grid-auto-rows: auto;
+		grid-template-columns: 100vw;
+		grid-template-rows: auto 1fr;
+	}
+
+	@include expanded
+	{
+		grid-auto-rows: auto;
+		grid-template-columns: auto calc(100% - var(--scaffoldingDrawerWidth));
+		grid-template-rows: auto 1fr;
+
+		> .app-bar
+		{
+			grid-column: 2;
+		}
+
+		> .sheet-overlay
+		{
+			position: sticky;
+			top: 0;
+			height: 100vh;
+			grid-column: 1;
+			grid-row: 1 / span 2;
+			pointer-events: none;
+			touch-action: none;
+
+			.sheet-content.sheet-left
+			{
+				position: sticky;
+				display: flex;
+				top: 0;
+				flex-flow: column;
+				opacity: 1 !important;
+				transform: none !important;
+			}
+		}
+
+		&.is-collapsed
+		{
+			grid-template-columns: 1fr;
+
+			> .app-bar,
+			> .content
+			{
+				grid-column: 1;
+			}
+
+			> .sheet-overlay
+			{
+				display: none;
+			}
+		}
+
+		&.sheet-below-app-bar
+		{
+			> .app-bar
+			{
+				grid-column: 1 / span 2;
+				grid-row: 1;
+			}
+
+			> .content
+			{
+				grid-column: 2;
+				grid-row: 2;
+			}
+
+			> .sheet-overlay
+			{
+				top: var(--appBarHeight);
+				height: calc(100vh - var(--appBarHeight));
+				grid-column: 1;
+				grid-row: 2;
+			}
+
+			&.is-collapsed
+			{
+				grid-template-columns: 1fr;
+
+				> .app-bar,
+				> .content
+				{
+					grid-column: 1;
+				}
+			}
+		}
+	}
+}

@@ -9,16 +9,18 @@
 
 :root
 {
-	--table-padding: 12px 24px;
+	--tablePadding: 12px 24px;
 }
 
-table.table
+.table
 {
 	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
 	z-index: 0;
 
-	$border: 1px solid #{latte-rgb(var(--outline-color-secondary))};
-	$hover-bg: #{latte-rgba(var(--outline-color-secondary), .5)};
+	$border: 1px solid #{latte-rgb(var(--outlineColor))};
+	$hover-bg: #{latte-rgba(var(--outlineColor), .5)};
 
 	&.table-border
 	{
@@ -31,7 +33,7 @@ table.table
 
 	&.table-compact
 	{
-		--table-padding: 6px 15px;
+		--tablePadding: 6px 15px;
 	}
 
 	tr
@@ -71,11 +73,11 @@ table.table
 		display: flex;
 		height: 100%;
 		margin: 0;
-		padding: var(--table-padding);
+		padding: var(--tablePadding);
 		flex-flow: column;
 		justify-content: center;
 		vertical-align: middle;
-		transition: background 90ms var(--ease-swift-out);
+		transition: background 90ms var(--easeSwiftOut);
 
 		*
 		{
@@ -86,7 +88,7 @@ table.table
 	tfoot .column-content,
 	thead .column-content
 	{
-		padding: var(--table-padding);
+		padding: var(--tablePadding);
 		font-weight: 500;
 	}
 
@@ -98,7 +100,7 @@ table.table
 	tbody input.column-content
 	{
 		height: 100%;
-		padding: var(--table-padding);
+		padding: var(--tablePadding);
 		background: transparent;
 		border: 0;
 		border-radius: 0;
@@ -115,7 +117,7 @@ table.table
 	tbody select.column-content
 	{
 		height: 100%;
-		padding: var(--table-padding);
+		padding: var(--tablePadding);
 		background-color: transparent;
 		border: 0;
 		border-radius: 0;
@@ -133,7 +135,7 @@ table.table
 
 	a.column-content
 	{
-		color: #{latte-rgb(var(--main-foreground))};
+		color: #{latte-rgb(var(--mainForeground))};
 		cursor: pointer;
 		text-decoration: none;
 
@@ -159,25 +161,26 @@ table.table
 		td,
 		th
 		{
-			background: #{latte-rgb(var(--outline-color-secondary))};
-			border-top: 1px solid #{latte-rgb(var(--outline-color))};
-			border-bottom: 1px solid #{latte-rgb(var(--outline-color))};
+			background: $hover-bg;
+			border-top: $border;
+			border-bottom: $border;
 		}
 
 		input
 		{
 			display: block;
-			padding: var(--table-padding);
+			padding: var(--tablePadding);
 			width: 100%;
 			background: transparent;
 			border: 0;
-			color: #{latte-rgb(var(--main-foreground))};
+			color: #{latte-rgb(var(--mainForeground))};
 			font-weight: 500;
-			outline: none;
+			outline: 0;
 
 			&::placeholder
 			{
-				color: var(--main-placeholder);
+				color: currentColor;
+				opacity: .5;
 			}
 		}
 	}
@@ -198,8 +201,16 @@ table.table
 		{
 			margin-top: -1px;
 			margin-bottom: -2px;
-			background: #{latte-rgb(var(--panel-background))};
+			background: #{latte-rgb(var(--panelBackground))};
 			border-bottom: $border;
 		}
 	}
+}
+
+.table-overflow
+{
+	position: relative;
+	display: block;
+	max-width: 100%;
+	overflow-x: auto;
 }

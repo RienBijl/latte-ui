@@ -9,22 +9,20 @@
 
 <template>
 
-	<div class="autocomplete" :class="{'is-loading': isLoading}">
+	<div class="input-group" :disabled="disabled" :class="{'is-loading': isLoading}">
 
-		<div class="form-control" :disabled="disabled">
-			<template v-for="selection in values">
+		<template v-for="selection in values">
 
-				<slot name="selection" v-bind="selection">
-					<span class="badge badge-primary">
-						<span>{{ selection.label }}</span>
-						<button class="btn" @click="selection.remove()"><Icon name="close"/></button>
-					</span>
-				</slot>
+			<slot name="selection" v-bind="selection">
+				<div class="badge badge-primary">
+					<span>{{ selection.label }}</span>
+					<button class="btn" @click="selection.remove()"><Icon name="close"/></button>
+				</div>
+			</slot>
 
-			</template>
+		</template>
 
-			<input type="search" :name="name" :disabled="disabled" class="form-control" ref="field" :placeholder="placeholder" autocomplete="false" @focus="onFocus" v-model="searchTerm" @keydown.delete="onKeyPressDelete" @keydown.enter="onSelectSuggestion" @keydown.tab="onSelectFirstSuggestion" @keydown.down="onKeyPressDown" @keydown.up="onKeyPressUp" v-if="canSearch"/>
-		</div>
+		<input type="search" :name="name" :disabled="disabled" class="form-control" ref="field" :placeholder="placeholder" autocomplete="false" @focus="onFocus" v-model="searchTerm" @keydown.delete="onKeyPressDelete" @keydown.enter="onSelectSuggestion" @keydown.tab="onSelectFirstSuggestion" @keydown.down="onKeyPressDown" @keydown.up="onKeyPressUp" v-if="canSearch"/>
 
 		<div class="popup" :class="{'is-open': shouldOpenSuggestions}" role="combobox">
 			<div class="popup-body">
@@ -59,7 +57,9 @@
 
 	import { id, request } from "../../js/core/api";
 	import { handleError } from "../../js/core";
-	import Icon from "./base/Icon";
+	import { terminateEvent } from "../../js/util/dom";
+
+	import Icon from "./base/Icon.vue";
 
 	function areArraysEqual(a, b)
 	{
@@ -195,7 +195,7 @@
 
 			addValue(label, value)
 			{
-				if (label === undefined || value === undefined)
+				if (!label || !value)
 					return;
 
 				if (this.values.filter(v => v.value === value).length > 0)
@@ -252,8 +252,7 @@
 
 				this.onSelectSuggestion();
 
-				evt.preventDefault();
-				evt.stopPropagation();
+				terminateEvent(evt);
 			},
 
 			onKeyPressDelete()
@@ -340,7 +339,7 @@
 				immediate: true,
 				handler()
 				{
-					if (this.dataSource === undefined)
+					if (!this.dataSource)
 						throw new Error("dataSource is undefined.");
 
 					return new Promise(resolve =>

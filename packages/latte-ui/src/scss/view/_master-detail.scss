@@ -7,69 +7,50 @@
  * LICENSE file that was distributed with this source code.
  */
 
-body.master-detail main#app
+.scaffolding.master-detail
 {
-	div#drawer
+	> .sheet-overlay .sheet-content.sheet-left
 	{
-		--drawer-elevation: var(--divider-size) 0 #{latte-rgb(var(--outline-color-secondary))};
+		box-shadow: 1px 0 #{latte-rgb(var(--outlineColor))};
 	}
 
-	> div.app-bar
-	{
-		--app-bar-elevation: var(--drawer-width-primary) var(--divider-size) #{latte-rgb(var(--outline-color-secondary))};
-	}
-
-	> div.content
+	> .content
 	{
 		padding: 0;
 
-		> div.panel
+		> .row
 		{
-			display: flex;
-			align-items: stretch;
-			height: calc(100vh - var(--app-bar-height));
-			border-radius: 0;
-
-			> div.row
-			{
-				width: 100%;
-			}
+			height: 100%;
 		}
 
 		#detail,
 		#master
 		{
+			height: 100%;
 			overflow: auto;
 			-webkit-overflow-scrolling: touch;
+
+			&.panel
+			{
+				border-radius: 0;
+				box-shadow: none;
+			}
 		}
 
 		@include compact
 		{
-			> div.panel
+			#master
 			{
-				height: unset;
-			}
-
-			#detail
-			{
-				border-top: var(--divider-size) solid #{latte-rgb(var(--outline-color-secondary))};
+				border-top: 1px solid #{latte-rgb(var(--outlineColor))};
 			}
 		}
 
 		@include expanded
 		{
-			#detail
+			#master
 			{
-				border-left: var(--divider-size) solid #{latte-rgb(var(--outline-color-secondary))};
+				border-right: 1px solid #{latte-rgb(var(--outlineColor))};
 			}
-		}
-	}
-
-	@include compact
-	{
-		> div.app-bar
-		{
-			--app-bar-elevation: 0 var(--divider-size) #{latte-rgb(var(--outline-color-secondary))};
 		}
 	}
 }

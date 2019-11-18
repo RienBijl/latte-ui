@@ -9,27 +9,27 @@
 
 .border
 {
-	border: var(--divider-size) solid #{latte-rgb(var(--outline-color))} !important;
+	border: 1px solid #{latte-rgb(var(--outlineColor))} !important;
 }
 
 .border-top
 {
-	border-top: var(--divider-size) solid #{latte-rgb(var(--outline-color))} !important;
+	border-top: 1px solid #{latte-rgb(var(--outlineColor))} !important;
 }
 
 .border-right
 {
-	border-right: var(--divider-size) solid #{latte-rgb(var(--outline-color))} !important;
+	border-right: 1px solid #{latte-rgb(var(--outlineColor))} !important;
 }
 
 .border-bottom
 {
-	border-bottom: var(--divider-size) solid #{latte-rgb(var(--outline-color))} !important;
+	border-bottom: 1px solid #{latte-rgb(var(--outlineColor))} !important;
 }
 
 .border-left
 {
-	border-left: var(--divider-size) solid #{latte-rgb(var(--outline-color))} !important;
+	border-left: 1px solid #{latte-rgb(var(--outlineColor))} !important;
 }
 
 .border-0
@@ -57,11 +57,11 @@
 	border-left: 0 !important;
 }
 
-@each $type in $theme-color-types
+@each $type in $color-types
 {
-	.border-#{$type}
+	.border-#{to-lower-case($type)}
 	{
-		border-color: #{latte-rgb(var(--color-#{$type}))};
+		border-color: #{latte-rgb(var(--color#{$type}))};
 	}
 }
 

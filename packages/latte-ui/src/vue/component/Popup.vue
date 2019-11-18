@@ -16,17 +16,23 @@
 	import { applyZ } from "../../js/core/z";
 	import { onlyMouse, onlyTouch } from "../../js/util/touch";
 	import { popupClosed, popupOpened } from "../../js/core/popup";
-	import { getMainElement } from "../../js/core";
+	import { oneOf } from "../../js/helper/array";
+	import { MoveToMainDirective } from "../directive/move-to-main";
 
 	export default {
 
 		name: "latte-popup",
+
+		directives: {
+			mtm: MoveToMainDirective
+		},
 
 		props: {
 			animateTransform: {default: true, type: Boolean},
 			associateWith: {default: undefined},
 			marginX: {default: 0, type: Number},
 			marginY: {default: 0, type: Number},
+			orientation: {default: "vertical", type: String, validator: oneOf(["horizontal", "vertical"])},
 			persistent: {default: false, type: Boolean},
 			withArrow: {default: true, type: Boolean}
 		},
@@ -37,21 +43,13 @@
 				popupClosed();
 
 			this.$el.clearOutsideEventListeners();
-		},
-
-		destroyed()
-		{
-			const mainElement = getMainElement();
-
-			if (!(this.$el.parentNode && this.$el.parentNode === mainElement))
-				return;
-
-			mainElement.removeChild(this.$el);
+			this.subscriptions.forEach(sub => sub.unsubscribe());
 		},
 
 		data()
 		{
 			return {
+				arrowPosition: undefined,
 				isOpen: false,
 				isOpening: false,
 				popupX: 0,
@@ -59,21 +57,16 @@
 				rect: null,
 				x: 0,
 				y: 0,
-				lattePersistent: false
+				lattePersistent: false,
+				subscriptions: []
 			};
 		},
 
 		mounted()
 		{
-			if (this.$el.parentNode)
-				this.$el.parentNode.removeChild(this.$el);
-			else if (this.associatedElement)
+			if (this.associatedElement)
 				this.bindEvents();
-
-			getMainElement().appendChild(this.$el);
-
-			// Update associate-with prop by updating our parent.
-			if (this.$parent && this.$parent.$forceUpdate)
+			else if (this.$parent)
 				this.$parent.$forceUpdate();
 
 			this.$el.addOutsideEventListener("mousedown", onlyMouse(this.onOutsideClick), {passive: true});
@@ -81,14 +74,16 @@
 
 			live(this.$el, "[href],[data-close]", "click", () => raf(() => this.close()));
 
-			on("latte:tick", () => this.onTick());
-			on("latte:context-menu", () => this.close());
-			on("latte:overlay", () => this.close());
+			this.subscriptions.push(
+				on("latte:tick", () => this.onTick()),
+				on("latte:context-menu", () => this.close()),
+				on("latte:overlay", () => this.close())
+			);
 		},
 
 		render(h)
 		{
-			return h("div", {class: this.popupClasses, scopedSlots: this.$scopedSlots, style: this.popupStyles}, [
+			return h("div", {class: this.popupClasses, directives: [{name: "mtm"}], scopedSlots: this.$scopedSlots, style: this.popupStyles}, [
 				h("div", {class: "popup-body"}, this.$slots.default)
 			]);
 		},
@@ -97,7 +92,7 @@
 
 			associatedElement()
 			{
-				if (this.associateWith === undefined)
+				if (!this.associateWith)
 					return undefined;
 
 				if (this.associateWith instanceof Vue)
@@ -110,13 +105,8 @@
 			{
 				const classes = ["popup"];
 
-				if (this.withArrow)
-				{
-					const aboveUnder = this.y > (self.innerHeight / 2) ? "above" : "under";
-					const position = this.x > (self.innerWidth / 2) ? "right" : "left";
-
-					classes.push(`popup-${position}-${aboveUnder}`);
-				}
+				if (this.withArrow && this.arrowPosition)
+					classes.push("arrow", ...this.arrowPosition);
 
 				if (!this.animateTransform || this.isOpening)
 					classes.push("no-transform-animation");
@@ -149,13 +139,13 @@
 				this.associatedElement.addEventListener("click", this.onClick, {passive: true});
 			},
 
-			unbindEvents()
+			unbindEvents(elm)
 			{
-				if (this.associatedElement === undefined)
+				if (!elm)
 					return;
 
 				this.rect = null;
-				this.associatedElement.removeEventListener("click", this.onClick, {passive: true});
+				elm.removeEventListener("click", this.onClick, {passive: true});
 			},
 
 			close()
@@ -192,18 +182,39 @@
 				const t = this.y;
 				const h = this.rect !== null ? this.rect.height : 0;
 				const w = this.rect !== null ? this.rect.width : 0;
+				let x;
+				let y;
 
-				let x = l + this.marginX;
-				let y = t + h + this.marginY;
+				if (this.orientation === "horizontal")
+				{
+					x = l + w + this.marginX;
+					y = t + this.marginY;
 
-				if (px === "right")
-					x = (l + w) - (pcr.width + this.marginX);
+					if (px === "right")
+						x = l - (pcr.width + this.marginX);
 
-				if (py === "above")
-					y = t - (pcr.height + this.marginY);
+					if (py === "above")
+						y = (t + h) - (pcr.height + this.marginY);
 
+					x += (this.isOpen || !this.animateTransform ? 0 : (px === "right" ? -24 : 24));
+				}
+				else
+				{
+					x = l + this.marginX;
+					y = t + h + this.marginY;
+
+					if (px === "right")
+						x = (l + w) - (pcr.width + this.marginX);
+
+					if (py === "above")
+						y = t - (pcr.height + this.marginY);
+
+					y += (this.isOpen || !this.animateTransform ? 0 : (py === "above" ? -24 : 24));
+				}
+
+				this.arrowPosition = [this.orientation, px, py];
 				this.popupX = Math.round(x);
-				this.popupY = Math.round(y + (this.isOpen || !this.animateTransform ? 0 : (py === "above" ? -24 : 24)));
+				this.popupY = Math.round(y);
 			},
 
 			setPosition(x, y)
@@ -227,7 +238,7 @@
 
 			onTick()
 			{
-				if (this.associatedElement !== undefined)
+				if (this.associatedElement)
 					this.rect = this.associatedElement.getBoundingClientRect();
 
 				this.calculatePosition();
@@ -239,10 +250,10 @@
 
 			associateWith(n, o)
 			{
-				if (o !== undefined)
-					this.unbindEvents();
+				if (o)
+					this.unbindEvents(o);
 
-				if (n !== undefined)
+				if (n)
 					this.bindEvents();
 			},
 

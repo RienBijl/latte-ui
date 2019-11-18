@@ -11,16 +11,16 @@ div.page
 {
 	position: relative;
 	display: block;
-	min-height: calc(100vh - var(--app-bar-height));
+	min-height: calc(100vh - var(--appBarHeight));
 }
 
 div.page-header
 {
 	position: relative;
 	display: block;
-	margin: 0 0 24px 0;
-	background: RGB(var(--panel-background));
-	border-bottom: var(--divider-size) solid RGB(var(--outline-color-secondary));
+	margin: 0 0 30px 0;
+	background: rgba(var(--panelBackground), 1);
+	border-bottom: 1px solid rgba(var(--outlineColor), 1);
 
 	div.page-header-content
 	{
@@ -34,30 +34,20 @@ div.page-header
 		}
 	}
 
-	h1
+	h1:only-child
 	{
-		margin: 0;
-		font-size: 1.7rem;
-		font-weight: 700;
+		margin-bottom: 0;
 	}
 
 	p
 	{
-		margin-bottom: .5rem;
 		font-size: 1.1rem;
 		font-weight: 400;
 		opacity: .9;
-
-		&:last-child
-		{
-			margin-bottom: 0;
-		}
 	}
 }
 
 .docs-separator
 {
-	--outline-color: var(--outline-color-secondary);
-
 	margin: 3rem 0 !important;
 }

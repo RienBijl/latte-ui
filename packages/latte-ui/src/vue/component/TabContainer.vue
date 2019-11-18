@@ -10,7 +10,7 @@
 <template>
 
 	<div class="tab-container">
-		<slot></slot>
+		<slot v-bind="{current, tabs, setCurrent}"></slot>
 	</div>
 
 </template>
@@ -40,10 +40,16 @@
 
 		methods: {
 
+			setCurrent(tab)
+			{
+				this.current = tab;
+			},
+
 			updateChildren()
 			{
 				this.tabs = this.$children
-					.filter(c => c.$options.name === "latte-tab");
+					.filter(c => c.$options.name === "latte-tab" || (c.$children[0] && c.$children[0].$options.name === "latte-tab"))
+					.map(c => c.$options.name === "latte-tab" ? c : c.$children[0]);
 			},
 
 			updateCurrent()

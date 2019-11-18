@@ -18,9 +18,9 @@ export function id()
 {
 	const array = new Uint32Array(3);
 
-	window.crypto.getRandomValues(array);
+	crypto.getRandomValues(array);
 
-	return "latte-" + array.join("-");
+	return "l-" + array.join("-");
 }
 
 /**
@@ -38,24 +38,7 @@ export function request(url, options = {})
 	return fetch(url, Object.assign({}, {credentials: "same-origin"}, options));
 }
 
-/**
- * Requests a JSON endpoint.
- *
- * @param {String} url
- * @param {RequestInit} options
- *
- * @returns {Promise<Object>}
- * @author Bas Milius <bas@mili.us>
- * @since 1.0.0
- */
-export function requestJson(url, options = {})
-{
-	return request(url, options)
-		.then(r => r.json());
-}
-
 export default {
 	id,
-	request,
-	requestJson
+	request
 }

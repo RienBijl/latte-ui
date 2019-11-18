@@ -1,0 +1,166 @@
+.be-inserter
+{
+	width: 390px;
+	z-index: 0;
+
+	.app-bar
+	{
+		position: sticky;
+		top: 0;
+		background: rgba(var(--panelBackground), 1);
+		border-bottom: 1px solid rgba(var(--outlineColor), 1);
+		z-index: 2;
+	}
+
+	.be-inserter-group
+	{
+		position: relative;
+		display: flex;
+		flex-flow: column;
+		margin-top: -1px;
+
+		.inserter-group-header
+		{
+			position: sticky;
+			display: flex;
+			top: 80px;
+			padding: 15px 24px;
+			align-items: center;
+			background: rgba(var(--panelBackground), 1);
+			border: 1px solid rgba(var(--outlineColor), 1);
+			border-left: 0;
+			border-right: 0;
+			cursor: pointer;
+			z-index: 1;
+
+			&::before
+			{
+				position: absolute;
+				display: block;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				content: "";
+				background: rgba(var(--outlineColor), .2);
+				z-index: -1;
+			}
+
+			&:hover::before
+			{
+				background: rgba(var(--outlineColor), .4);
+			}
+
+			h6
+			{
+				margin: 0 1rem;
+				color: rgba(var(--mainForeground), .5);
+				font-size: .9rem;
+			}
+		}
+
+		.inserter-group-body
+		{
+			position: relative;
+			display: grid;
+			padding: 12px;
+			grid-auto-rows: 1fr;
+			grid-gap: 12px;
+			grid-template-columns: 1fr 1fr 1fr;
+		}
+
+		.inserter-block
+		{
+			--rippleColor: var(--colorPrimary);
+
+			position: relative;
+			display: flex;
+			padding: 18px 9px;
+			flex-flow: column;
+			align-items: center;
+			justify-content: center;
+			background: transparent;
+			border: 0;
+			border-radius: var(--radius);
+			cursor: pointer;
+			outline: 0;
+
+			.mdi
+			{
+				color: rgba(var(--colorPrimary), 1);
+			}
+
+			span
+			{
+				margin-top: 12px;
+				font-size: .9rem;
+			}
+		}
+	}
+}
+
+.be-inserter-inline
+{
+	position: relative;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 0;
+
+	i.mdi
+	{
+		position: absolute;
+		display: block;
+		top: -.5rem;
+		left: 50%;
+		height: 30px;
+		padding: 3px;
+		width: 30px;
+		background: rgba(var(--panelBackground), 1);
+		border-radius: 15px;
+		box-shadow: var(--elevation3), 0 0 0 1px rgba(var(--outlineColor), .5);
+		cursor: pointer;
+		opacity: 0;
+		transform: translate3d(-50%, -50%, 0);
+		transition: opacity 180ms var(--easeSwiftOut);
+		z-index: 1;
+
+		&:hover
+		{
+			opacity: 1;
+		}
+	}
+}
+
+.be-inserter-nag
+{
+	position: relative;
+	display: flex;
+	padding: 24px 12px;
+	align-items: center;
+	justify-content: center;
+	flex-flow: column;
+	background: rgba(var(--outlineColor), .3);
+	border: 2px dashed rgba(var(--outlineColor), 1);
+	border-radius: var(--radius);
+	cursor: pointer;
+	text-align: center;
+
+	&:hover
+	{
+		background: rgba(var(--outlineColor), .5);
+	}
+
+	i.mdi
+	{
+		color: rgba(var(--colorPrimary), 1);
+	}
+
+	span
+	{
+		margin-top: .5rem;
+		color: rgba(var(--mainForeground), .8);
+		font-size: .85rem;
+		font-weight: 700;
+	}
+}

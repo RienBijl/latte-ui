@@ -14,13 +14,9 @@ function registerCSSPaintWorklets()
 {
 	let path = getLattePath();
 
-	Promise
-		.all([
-			CSS.paintWorklet.addModule(`${path}worklet/paint/app-bar-cutout.js`),
-			CSS.paintWorklet.addModule(`${path}worklet/paint/btn-background.js`)
-		])
+	CSS.paintWorklet.addModule(`${path}worklet/paint/btn-background.js`)
 		.then(() => docRoot.classList.add("css-paint-api"))
-		.catch(err => console.error(`[LatteUI] CSS Paint API not used because worklets could not load.`));
+		.catch(() => console.error(`[LatteUI] CSS Paint API not used because worklets could not load.`));
 }
 
 function registerCSSProperties()
@@ -28,28 +24,21 @@ function registerCSSProperties()
 	docRoot.classList.add("css-props-values");
 
 	CSS.registerProperty({
-		name: "--app-bar-alpha",
+		name: "--appBarAlpha",
 		syntax: "<number>",
 		inherits: true,
 		initialValue: 1
 	});
 
 	CSS.registerProperty({
-		name: "--app-bar-cutout-offset",
-		syntax: "<length-percentage>",
-		inherits: true,
-		initialValue: "50%"
-	});
-
-	CSS.registerProperty({
-		name: "--btn-alpha",
+		name: "--btnAlpha",
 		syntax: "<number>",
 		inherits: false,
 		initialValue: 1
 	});
 
 	CSS.registerProperty({
-		name: "--btn-hover",
+		name: "--btnHover",
 		syntax: "<number>",
 		inherits: false,
 		initialValue: 0
@@ -58,9 +47,9 @@ function registerCSSProperties()
 
 export function initializeHoudiniApis()
 {
-	if (CSS && CSS.paintWorklet)
+	if (typeof CSS !== "undefined" && CSS.paintWorklet)
 		registerCSSPaintWorklets();
 
-	if (CSS && CSS.registerProperty)
+	if (typeof CSS !== "undefined" && CSS.registerProperty)
 		registerCSSProperties();
 }

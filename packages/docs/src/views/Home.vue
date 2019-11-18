@@ -15,13 +15,13 @@
 					<div class="col-12 col-lg-5 mt-3 mt-lg-0 ml-lg-auto">
 
 						<div class="page-header-content tall">
-							<h1 id="hero-title">Latte</h1>
-							<p>An easy to use UI library build on top of Vue.js</p>
+							<h1>Latte UI</h1>
+							<p class="lead">An easy to use UI library build for Vue.js.</p>
 							<div class="d-flex mt-4 mb-3 justify-content-center justify-content-lg-start" id="hero-actions">
-								<latte-ripple as="button" class="btn btn-contained btn-primary btn-lg" @click="$router.push('/docs')"><i class="mdi mdi-book-open-variant"></i><span>Documentation</span></latte-ripple>
-								<latte-ripple as="a" href="//github.com/basmilius/latte-ui" target="_blank" class="btn btn-outline btn-dark btn-lg"><i class="mdi mdi-github-circle"></i><span>GitHub</span></latte-ripple>
+								<latte-ripple as="button" class="btn btn-contained btn-outline btn-lg" @click="$router.push('/docs')"><i class="mdi mdi-book-open-variant"></i><span>Documentation</span></latte-ripple>
+								<latte-ripple as="a" href="//github.com/basmilius/latte-ui" target="_blank" class="btn btn-text btn-lg"><i class="mdi mdi-github-circle"></i><span>GitHub</span></latte-ripple>
 							</div>
-							<p class="text-muted">Version {{ $latte.version }}</p>
+							<small class="text-muted">Version {{ latteVersion }}</small>
 						</div>
 
 					</div>
@@ -102,6 +102,15 @@
 			PageHeader
 		},
 
+		computed: {
+
+			latteVersion()
+			{
+				return Latte.version;
+			}
+
+		},
+
 		methods: {
 
 			notAvailable()
@@ -126,18 +135,12 @@
 		display: block;
 		margin: 6px 6px 0 6px;
 		padding: 120px 0;
-		background: rgba(var(--panel-background), 1);
-		border: var(--divider-size) solid rgba(var(--outline-color-secondary), 1);
+		background: rgba(var(--panelBackground), 1);
+		border: 1px solid rgba(var(--outlineColor), 1);
 
 		@media (max-width: 991px)
 		{
 			text-align: center;
-		}
-
-		h1#hero-title
-		{
-			font-size: 2.4rem;
-			font-weight: 500;
 		}
 
 		img#hero-image
@@ -162,8 +165,8 @@
 			align-items: flex-start;
 			flex: 1 1 0;
 			flex-flow: column;
-			background: rgba(var(--panel-background), 1);
-			border: var(--divider-size) solid rgba(var(--outline-color-secondary), 1);
+			background: rgba(var(--panelBackground), 1);
+			border: 1px solid rgba(var(--outlineColor), 1);
 		}
 	}
 

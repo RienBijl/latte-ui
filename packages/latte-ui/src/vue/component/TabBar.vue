@@ -27,9 +27,10 @@
 
 <script>
 
-	import { raf } from "../../js/util/dom";
+	import { closestComponent, raf } from "../../js/util/dom";
 	import { on } from "../../js/core/action";
-	import Icon from "./base/Icon";
+
+	import Icon from "./base/Icon.vue";
 
 	export default {
 
@@ -44,21 +45,30 @@
 		data()
 		{
 			return {
+				subscriptions: [],
 				current: 0,
 				indicatorBarRect: null,
 				indicatorTabRect: null,
+				container: closestComponent(this, "latte-tab-container"),
 				tabs: []
 			};
 		},
 
+		destroyed()
+		{
+			this.subscriptions.forEach(sub => sub.unsubscribe());
+		},
+
 		mounted()
 		{
-			this.$parent.$on("change", current => this.onTabChange(current));
-			this.$parent.updateTabBars();
+			this.container.$on("change", current => this.onTabChange(current));
+			this.container.updateTabBars();
 
-			on("latte:tick", () => raf(() => this.updateIndicator()));
+			this.subscriptions.push(
+				on("latte:tick", () => raf(() => this.updateIndicator()))
+			);
 
-			window.addEventListener("load", () => raf(() => this.updateIndicator(), 50));
+			raf(() => this.updateIndicator());
 		},
 
 		computed: {
@@ -80,7 +90,7 @@
 
 			click(index)
 			{
-				this.$parent.current = index;
+				this.container.current = index;
 			},
 
 			updateIndicator()

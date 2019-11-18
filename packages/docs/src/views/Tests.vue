@@ -9,18 +9,221 @@
 
 <template>
 
-	<div class="page mb-3" id="tests" v-if="!testEditor">
+	<div class="page mb-3" id="tests">
 
 		<PageHeader>
-			<h1>Random tests</h1>
-			<p>These are some development tests.</p>
+			<h1>Bas' playground</h1>
+			<p>Here are a few things i'm working on for the next release of Latte UI :-)</p>
 		</PageHeader>
 
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
 
-					<div class="panel" v-if="true">
+					<div class="panel">
+						<div class="panel-header"><span class="panel-title">Breadcrumbs</span></div>
+						<div class="panel-body">
+							<nav class="nav nav-breadcrumb">
+								<a class="nav-link">Home</a>
+								<a class="nav-link">Library</a>
+								<a class="nav-link is-active">Music</a>
+							</nav>
+							<nav class="nav nav-breadcrumb mt-3">
+								<a class="nav-link">Home</a>
+								<a class="nav-link is-active">Library</a>
+							</nav>
+						</div>
+					</div>
+
+					<div class="panel">
+						<div class="panel-header"><span class="panel-title">Typography</span></div>
+						<div class="panel-body">
+							<h1>Heading 1</h1>
+							<h2>Heading 2</h2>
+							<h3>Heading 3</h3>
+							<h4>Heading 4</h4>
+							<h5>Heading 5</h5>
+							<h6>Heading 6</h6>
+							<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, autem beatae consequuntur eum illo quam qui. Accusantium animi deleniti est facere fugit, inventore labore nemo neque nobis praesentium sed voluptatum!</p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto dicta neque quos similique vitae. Cupiditate eligendi molestias numquam odio ratione recusandae vel! Dolorum facilis natus, neque nisi optio recusandae sed.</p>
+							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A asperiores commodi consequuntur cum delectus eius eveniet facere labore, nobis, odio provident quis quos, sequi suscipit tempore? Ad dolorum fugit rerum!</p>
+							<ul>
+								<li>Item</li>
+								<li>Item</li>
+								<li>Item</li>
+							</ul>
+							<ol>
+								<li>Item</li>
+								<li>Item</li>
+								<li>Item</li>
+							</ol>
+							<p>
+								<abbr title="HyperText Markup Language">HTML</abbr>
+							</p>
+							<blockquote>
+								<blockquote>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, accusamus ad aliquam aliquid aperiam blanditiis culpa delectus doloribus enim est eum eveniet exercitationem fugiat, necessitatibus nemo neque tenetur totam vel!</p>
+								</blockquote>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, accusamus ad aliquam aliquid aperiam blanditiis culpa delectus doloribus enim est eum eveniet exercitationem fugiat, necessitatibus nemo neque tenetur totam vel!</p>
+							</blockquote>
+							<blockquote>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, accusamus ad aliquam aliquid aperiam blanditiis culpa delectus doloribus enim est eum eveniet exercitationem fugiat, necessitatibus nemo neque tenetur totam vel!</p>
+								<blockquote>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, accusamus ad aliquam aliquid aperiam blanditiis culpa delectus doloribus enim est eum eveniet exercitationem fugiat, necessitatibus nemo neque tenetur totam vel!</p>
+								</blockquote>
+							</blockquote>
+							<blockquote>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, accusamus ad aliquam aliquid aperiam blanditiis culpa delectus doloribus enim est eum eveniet exercitationem fugiat, necessitatibus nemo neque tenetur totam vel!</p>
+								<footer>Bas Milius</footer>
+							</blockquote>
+						</div>
+					</div>
+
+					<div class="panel">
+						<div class="panel-header"><span class="panel-title">Silhouette</span></div>
+						<div class="panel-body" style="background: rgb(var(--mainBackground))">
+							<div class="row">
+
+								<div class="col-12 col-lg-6">
+
+									<div class="panel">
+										<latte-silhouette class="panel-media embed-responsive embed-responsive-16by9"></latte-silhouette>
+										<div class="panel-header">
+											<latte-silhouette class="avatar avatar-36px mr-3"></latte-silhouette>
+											<div class="panel-column">
+												<latte-silhouette as="span" class="panel-title w-75"></latte-silhouette>
+												<latte-silhouette as="span" class="panel-sub-title mt-1 w-50"></latte-silhouette>
+											</div>
+										</div>
+										<div class="panel-body">
+											<latte-silhouette as="p"></latte-silhouette>
+										</div>
+										<div class="panel-footer justify-content-end">
+											<latte-silhouette as="button" class="btn btn-contained btn-primary"></latte-silhouette>
+										</div>
+									</div>
+
+								</div>
+
+								<div class="col-12 col-lg-6 mt-panel-gutter mt-lg-0">
+
+									<div class="panel">
+										<div class="panel-media embed-responsive embed-responsive-16by9" style="background-image: url(/image/wallpaper/1.jpg)"></div>
+										<div class="panel-header">
+											<latte-initials class="avatar avatar-36px mr-3" initials="BM"></latte-initials>
+											<div class="panel-column">
+												<span class="panel-title">Silhouette</span>
+												<span class="panel-sub-title">Silhouettes are amazing :-)</span>
+											</div>
+											<button class="btn btn-icon btn-text"><i class="mdi mdi-dots-vertical"></i></button>
+										</div>
+										<div class="panel-body">
+											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid at dolores eius eligendi enim eveniet in molestiae neque nisi nostrum numquam, officiis omnis pariatur placeat, quasi qui similique vitae?</p>
+										</div>
+										<div class="panel-footer justify-content-end">
+											<button class="btn btn-contained btn-primary"><i class="mdi mdi-check-circle"></i><span>Save</span></button>
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="panel">
+						<div class="panel-header"><span class="panel-title">Form elements</span></div>
+						<div class="panel-body">
+							<div class="form-group">
+								<input type="text" placeholder="Type your name..." class="form-control"/>
+							</div>
+							<div class="form-group">
+								<input type="text" placeholder="Type your name..." class="form-control" disabled/>
+							</div>
+							<div class="form-group">
+								<select class="form-control">
+									<option value="1">This is an option</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<select class="form-control" disabled>
+									<option value="1">This is an option</option>
+								</select>
+							</div>
+						</div>
+						<div class="panel-body">
+							<div class="form-group">
+								<latte-autocomplete :data-source="autocompleteDataSource" v-model="selected"></latte-autocomplete>
+							</div>
+							<div class="form-group">
+								<latte-autocomplete multi-select :data-source="autocompleteDataSource" v-model="selectedMulti"></latte-autocomplete>
+							</div>
+							<div class="form-group input-group">
+								<div class="input-group-addon"><i class="mdi mdi-tag-heart"></i></div>
+								<latte-autocomplete :data-source="autocompleteDataSource" v-model="selected"></latte-autocomplete>
+							</div>
+							<div class="form-group input-group">
+								<div class="input-group-addon"><i class="mdi mdi-tag-heart"></i></div>
+								<latte-autocomplete multi-select :data-source="autocompleteDataSource" v-model="selectedMulti"></latte-autocomplete>
+							</div>
+						</div>
+						<div class="panel-body">
+							<div class="form-group input-group">
+								<div class="input-group-addon"><i class="mdi mdi-tag"></i></div>
+								<span class="badge badge-primary"><span>Awesome</span><button class="btn"><i class="mdi mdi-close"></i></button></span>
+								<span class="badge badge-primary"><span>Awesome</span><button class="btn"><i class="mdi mdi-close"></i></button></span>
+								<input type="text" placeholder="Search for tags..." class="form-control"/>
+							</div>
+						</div>
+						<div class="panel-body">
+							<div class="form-group input-group">
+								<div class="input-group-addon"><input type="checkbox" class="checkbox"/></div>
+								<input type="text" placeholder="Entry code..." class="form-control"/>
+							</div>
+							<div class="form-group input-group form-control-error">
+								<div class="input-group-addon"><input type="checkbox" class="checkbox"/></div>
+								<input type="text" placeholder="Entry code..." class="form-control"/>
+							</div>
+							<div class="form-group input-group form-control-info">
+								<div class="input-group-addon"><input type="checkbox" class="checkbox"/></div>
+								<input type="text" placeholder="Entry code..." class="form-control"/>
+							</div>
+							<div class="form-group input-group form-control-success">
+								<div class="input-group-addon"><input type="checkbox" class="checkbox"/></div>
+								<input type="text" placeholder="Entry code..." class="form-control"/>
+							</div>
+							<div class="form-group input-group form-control-warning">
+								<div class="input-group-addon"><input type="checkbox" class="checkbox"/></div>
+								<input type="text" placeholder="Entry code..." class="form-control"/>
+							</div>
+						</div>
+						<div class="panel-body">
+							<div class="form-group input-group">
+								<div class="input-group-addon"><i class="mdi mdi-email"></i></div>
+								<input type="text" placeholder="E-mailaddress..." class="form-control"/>
+							</div>
+							<div class="form-group input-group">
+								<input type="text" placeholder="E-mailaddress..." class="form-control"/>
+								<div class="input-group-addon"><i class="mdi mdi-email"></i></div>
+							</div>
+							<div class="form-group input-group">
+								<div class="input-group-addon"><i class="mdi mdi-email"></i></div>
+								<input type="text" placeholder="E-mailaddress..." class="form-control"/>
+								<button class="btn btn-contained btn-primary"><span>Save</span></button>
+							</div>
+							<div class="form-group input-group">
+								<div class="input-group-addon"><i class="mdi mdi-email"></i></div>
+								<input type="text" placeholder="E-mailaddress..." class="form-control"/>
+								<div class="input-group-addon"><i class="mdi mdi-check-circle"></i></div>
+							</div>
+							<div class="form-group input-group">
+								<div class="input-group-addon">https://example.com/profile/</div>
+								<input type="text" placeholder="Choose an username..." class="form-control"/>
+							</div>
+						</div>
+					</div>
+
+					<div class="panel" v-if="false">
 						<div class="panel-header"><span class="panel-title">Virtual scroller</span></div>
 						<latte-virtual-scroller :items="rows" :item-height="48" style="height: 390px">
 
@@ -31,7 +234,7 @@
 						</latte-virtual-scroller>
 					</div>
 
-					<div class="panel" v-if="true">
+					<div class="panel" v-if="false">
 						<div class="panel-header"><span class="panel-title">Virtual scroller (grid)</span></div>
 						<latte-virtual-scroller :items="rows" :item-height="48" :item-width="222" items-class="d-flex flex-row flex-wrap" style="height: 390px">
 
@@ -42,90 +245,58 @@
 						</latte-virtual-scroller>
 					</div>
 
-					<div class="panel" v-if="true">
-						<div class="panel-header">
-							<span class="panel-title">Emoji stuff</span>
-							<div class="ml-auto"></div>
-							<latte-emoji-picker></latte-emoji-picker>
-							<latte-emoji-picker close-on-select></latte-emoji-picker>
-						</div>
-						<div class="panel-body">
-							<p v-emojify>{{ "Emoji's are now replaced in latte-ui 🎉🙅🏽‍♂️" }}</p>
-							<p v-emojify>{{ "🥳🤪✋🏼🍑🥳🥳🥳😘" }}</p>
-						</div>
-					</div>
-
 				</div>
 			</div>
 		</div>
 
 	</div>
 
-	<div class="panel radius-none" style="height: calc(100vh - 60px)" v-else>
-		<BEEditor v-model="content">
-			<template #settings-pane-after="{ blockSettingsShown }">
-				<template v-if="!blockSettingsShown">
-					<div class="panel-header"><span class="panel-title">Page settings</span></div>
-					<BESettingsGroup title="General" :padded="true">
-						This panel was added with a slot.
-					</BESettingsGroup>
-					<BESettingsGroup title="View" :opened="false" :padded="true">
-						This panel was also added with a slot.
-					</BESettingsGroup>
-				</template>
-			</template>
-		</BEEditor>
-	</div>
-
 </template>
 
 <script>
 
-	import { BEEditor } from "../../../block-editor/src";
-
-	import BESettingsGroup from "../../../block-editor/src/BESettingsGroup";
 	import PageHeader from "../components/PageHeader";
 
 	export default {
 
 		components: {
-			BESettingsGroup,
-			BEEditor,
 			PageHeader
 		},
 
 		data()
 		{
 			let i = 0;
-			let rows = Array.from(Array(50), () => ({id: ++i, name: `Bas ${i}`}));
+			let rows = Array.from(Array(10000), () => ({id: ++i, name: `Bas ${i}`}));
 
 			return {
-				content: [{"id":"heading","options":{"color":"rgb(247, 54, 43)","type":"h1","text":"This is my amazing page!"}},
-					{"id":"paragraph","options":{"align":"left","fontSize":1,"indent":0,"text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in lorem eget est commodo vulputate eu quis ipsum. Nam dictum quis dui eget cursus. Phasellus tellus sapien, auctor et cursus eget, tempus ut justo. Donec placerat scelerisque nibh, eu consectetur elit imperdiet eu. Curabitur id ligula quis eros ullamcorper elementum. Fusce diam nibh, porttitor vel sagittis et, hendrerit in mauris. Nam elementum nibh in ipsum tempus, non semper lorem fringilla. In turpis dolor, venenatis lobortis malesuada non, posuere tempor tortor. Cras interdum mauris ut lorem volutpat, sit amet varius ex scelerisque.&nbsp;Suspendisse quam urna, varius ut pretium quis, lacinia a eros. Duis non nisi eu neque luctus ultricies et vel lectus.&nbsp;"}},
-					{"id":"paragraph","options":{"align":"right","color":"rgb(126, 123, 158)","fontSize":1.35,"indent":10,"text":"<i>\"Aenean varius pretium tortor eu porttitor. Vivamus finibus sagittis tellus, sit amet porta tortor tempor ac. Aenean ac mauris lobortis ipsum feugiat volutpat nec sit amet ex.\"</i>"}},
-					{"id":"button","options":{"class":"mx-auto mb-3","pillButton":false,"rippleButton":true,"size":"lg","text":"My awesome button","type":"outline","url":""}},
-					{"id":"columns","options":{"class":"mb-3","columns":2,"gutters":true,"preset":1},"children":[[{"id":"youtube-embed","options":{"videoId":"2TuyT0knklM"}}],[{"id":"heading","options":{"type":"h5","text":"Gavin DeGraw - Soldier"}},
-							{"id":"paragraph","options":{"align":"left","fontSize":1,"indent":0,"text":"Phasellus commodo, lacus non viverra imperdiet, libero orci lacinia velit, sit amet malesuada dui diam eu lectus. Sed maximus eu orci ut condimentum.&nbsp;"}},
-							{"id":"paragraph","options":{"align":"left","fontSize":1,"indent":0,"text":"Vivamus auctor sapien nisl, varius interdum libero malesuada sit amet. Integer vulputate facilisis urna id sollicitudin."}}]]},
-					{"id":"paragraph","options":{"align":"left","fontSize":1,"indent":0,"text":"Integer ac vestibulum dolor, et euismod sem. Vivamus volutpat, lectus eget vulputate eleifend, nibh quam aliquet lorem, quis efficitur neque magna ac elit. Vestibulum ac risus eu ligula auctor cursus. Curabitur purus enim, accumsan nec magna vel, ornare sagittis nisi. Pellentesque libero lorem, rhoncus placerat mauris et, vehicula tempor turpis. Duis nec luctus metus. Maecenas consequat libero id nulla pharetra luctus. Donec ultricies tincidunt tincidunt. Suspendisse sollicitudin lacus nunc, sed ultricies tellus efficitur nec. Phasellus eget sem nec enim molestie venenatis nec ut tortor. Aliquam dictum tempus neque, at luctus elit mollis sed. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed pellentesque, metus pharetra auctor luctus, sem nunc mattis purus, at mattis turpis mauris nec dolor. Curabitur cursus enim non libero sodales tristique."}},
-					{"id":"paragraph","options":{"align":"left","fontSize":1,"indent":0,"text":"Aliquam urna sapien, gravida eget cursus at, fringilla eu metus. In sapien odio, gravida hendrerit iaculis id, sodales sit amet nibh. Nunc nec efficitur diam. Fusce sagittis at nibh eget tristique. Integer elit felis, consequat nec fermentum ut, dignissim sit amet purus. Ut aliquam imperdiet faucibus. Etiam maximus mauris id sem aliquam, vel posuere leo viverra. Nulla eleifend leo in sapien cursus, congue mollis nunc ultrices."}}
-				],
 				rows: rows,
-				acTwo: [],
-				acTree: [3, 6],
-				testEditor: true
+				selected: 0,
+				selectedMulti: []
 			};
 		},
 
-		destroyed()
-		{
-			document.body.style.removeProperty("overflow");
-		},
+		methods: {
 
-		mounted()
-		{
-			if (this.testEditor)
-				document.body.style.setProperty("overflow", "hidden");
+			autocompleteDataSource()
+			{
+				let items = [];
+
+				for (let i = 0; i < 100; i++)
+					items.push({value: i + 1, label: `Item ${i + 1}`});
+
+				return {
+					getEntries(ids)
+					{
+						return new Promise(resolve => resolve(items.filter(item => ids.indexOf(item.value) > -1)));
+					},
+
+					getSuggestions(query, offset, limit)
+					{
+						return new Promise(resolve => resolve(items.filter(item => item.label.indexOf(query) === 0).slice(offset, limit)));
+					}
+				};
+			}
+
 		}
 
 	}

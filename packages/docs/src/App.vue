@@ -1,13 +1,8 @@
 <template>
 
 	<div id="app">
-
-		<ReleaseNotesOverlay/>
-
 		<router-view/>
-
 		<span class="spinner spinner-primary" :class="{'is-hidden': !isLoading}" id="app-spinner"></span>
-
 	</div>
 
 </template>
@@ -15,13 +10,12 @@
 <script>
 
 	import { Latte } from "../../latte-ui";
-	import ReleaseNotesOverlay from "./components/ReleaseNotesOverlay";
 
 	export default {
 
 		name: "App",
 
-		components: {ReleaseNotesOverlay},
+		refs: ["overlayOptionsButton"],
 
 		data()
 		{
